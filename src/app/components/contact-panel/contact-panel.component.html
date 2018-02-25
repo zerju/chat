@@ -1,5 +1,30 @@
 <div class="contacts">
   <div class="buttons">
-    <button>Add</button>
+    <button tooltip="add friend" class="icon-button">
+      <mat-icon>person_add</mat-icon>
+    </button>
+    <button class="icon-button">
+      <mat-icon>group_add</mat-icon>
+    </button>
+  </div>
+  <div [ngClass]="{'selected' : true}" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="contact">
+    <img src="../../../assets/profile/profile-pic.png" class="contact-pic">
+    <p class="contact-name">Jure Žerak</p>
+    <div class="available" [ngClass]="{'online' : online}"></div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="contact">
+    <img src="../../../assets/profile/profile-pic.png" class="contact-pic">
+    <p class="contact-name">Test testing</p>
+    <div class="available"></div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="contact">
+    <img src="../../../assets/profile/profile-pic.png" class="contact-pic">
+    <p class="contact-name">Admin admin</p>
+    <div class="available" [ngClass]="{'online' : online}"></div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="contact">
+    <img src="../../../assets/profile/profile-pic.png" class="contact-pic">
+    <p class="contact-name">Annonymous</p>
+    <div class="available" [ngClass]="{'online' : online}"></div>
   </div>
 </div>

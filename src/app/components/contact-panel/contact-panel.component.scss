@@ -1,3 +1,53 @@
-.contacts{
+.buttons {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    .icon-button {
+        border-bottom: none;
+        border-top: none;
+        margin-right: -4px;
+    }
+}
 
+.contact {
+    position: relative;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.12);
+    }
+    &:active {
+        background-color: rgba(0, 0, 0, 0.24);
+    }
+    &.selected {
+        background-color: rgba(0, 0, 0, 0.06);
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.12);
+        }
+    }
+    .contact-pic {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+    }
+    .contact-name {
+        margin: 0;
+        padding: 0;
+        max-width: 50%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    .available {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        position: absolute;
+        right: 10px;
+        background-color: #9E9E9E;
+        &.online {
+            background-color: #64DD17;
+        }
+    }
 }

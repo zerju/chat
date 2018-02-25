@@ -1,5 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatIconModule, MatTooltipModule} from '@angular/material';
 
 import {ContactPanelComponent} from './contact-panel/contact-panel.component';
 import {FooterComponent} from './footer/footer.component';
@@ -12,6 +14,9 @@ const COMPONENTS: any[] = [
   MessagePanelComponent, LayoutComponent
 ];
 
-@NgModule(
-    {imports: [CommonModule], declarations: COMPONENTS, exports: COMPONENTS})
+@NgModule({
+  imports: [CommonModule, MatIconModule, MatTooltipModule, FlexLayoutModule],
+  declarations: COMPONENTS,
+  exports: COMPONENTS
+})
 export class ComponentsModule {}
