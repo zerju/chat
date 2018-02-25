@@ -118,13 +118,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "app",
+      "zerju",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "app",
+      "zerju",
       "kebab-case"
     ],
     "use-input-property-decorator": true,
