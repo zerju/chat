@@ -1,5 +1,14 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  ElementRef,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import {IMessage} from '../../core/models/message.model';
+import {IContact} from '../../core/models/contact.model';
 
 @Component({
   selector: 'zerju-message-panel',
@@ -8,7 +17,32 @@ import {IMessage} from '../../core/models/message.model';
 })
 export class MessagePanelComponent implements OnInit {
   @Input() messages: IMessage[];
+  @Input() selected: IContact;
+
+  @Output() newMessageEvent: EventEmitter<string> = new EventEmitter<string>();
+
+  @ViewChild('textArea') textArea: ElementRef;
+
+  newMessage: string;
   constructor() {}
 
   ngOnInit() {}
+
+  getImage(): string {
+    if (this.selected.image) {
+      return this.selected.image;
+    } else {
+      return '../../../assets/profile/profile-pic.png';
+    }
+  }
+
+  sendMessage() {
+    if (this.newMessage && this.newMessage.length > 0) {
+      this.newMessageEvent.next(this.newMessage);
+      this.newMessage = '';
+      this.textArea.nativeElement.value = '';
+      this.textArea.nativeElement.focus();
+    }
+  }
+  checkEvent(event: any) { console.log(event); }
 }

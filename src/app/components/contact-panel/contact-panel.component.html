@@ -7,24 +7,12 @@
       <mat-icon>group_add</mat-icon>
     </button>
   </div>
-  <div [ngClass]="{'selected' : true}" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="contact">
-    <img src="../../../assets/profile/profile-pic.png" class="contact-pic">
-    <p class="contact-name">Jure Žerak</p>
-    <div class="available" [ngClass]="{'online' : online}"></div>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="contact">
-    <img src="../../../assets/profile/profile-pic.png" class="contact-pic">
-    <p class="contact-name">Test testing</p>
-    <div class="available"></div>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="contact">
-    <img src="../../../assets/profile/profile-pic.png" class="contact-pic">
-    <p class="contact-name">Admin admin</p>
-    <div class="available" [ngClass]="{'online' : online}"></div>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="contact">
-    <img src="../../../assets/profile/profile-pic.png" class="contact-pic">
-    <p class="contact-name">Annonymous</p>
-    <div class="available" [ngClass]="{'online' : online}"></div>
+  <div fxLayout="column">
+    <div (click)="onSelectEvent.next(contact)" *ngFor="let contact of contacts" [ngClass]="{'selected' : selected.id === contact.id}" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px"
+      class="contact">
+      <img [src]="contact.image ? contact.image : '../../../assets/profile/profile-pic.png'" class="contact-pic">
+      <p class="contact-name">{{ contact.name }}</p>
+      <div class="available" [ngClass]="{'online' : contact.online}"></div>
+    </div>
   </div>
 </div>

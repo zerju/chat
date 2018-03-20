@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
+import {IContact} from '../../core/models/contact.model';
 
 @Component({
   selector: 'zerju-contact-panel',
@@ -6,7 +7,12 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./contact-panel.component.scss']
 })
 export class ContactPanelComponent implements OnInit {
-  online = true;
+  @Input() contacts: IContact[];
+  @Input() selected: string;
+
+  @Output()
+  onSelectEvent: EventEmitter<IContact> = new EventEmitter<IContact>();
+
   constructor() {}
 
   ngOnInit() {}

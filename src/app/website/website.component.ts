@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {IMessage} from '../core/models/message.model';
+import {IContact} from '../core/models/contact.model';
 
 @Component({
   selector: 'zerju-website',
@@ -16,7 +17,29 @@ export class WebsiteComponent implements OnInit {
     {send: true, value: 'I am fine'},
     {send: false, value: 'Good to hear'}
   ];
+  contacts: IContact[] = [
+    {id: '1', name: 'Jure Žerak', online: true},
+    {id: '2', name: 'Test Testing', online: true},
+    {
+      id: '3',
+      name: 'Anonymous',
+      online: false,
+      image: '../../../assets/profile/anon.jpg'
+    }
+  ];
+  selectedContact: IContact;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() { this.onContactSelect(this.contacts[0]); }
+
+  /*
+  here I need to call API for messages
+  */
+  onContactSelect(contact: IContact) {
+    this.selectedContact = contact;
+    this.messages[1].value = 'Yo ' + contact.name;
+  }
+  onNewMessage(message: string) {
+    this.messages.push({send: true, value: message});
+  }
 }
