@@ -1,5 +1,8 @@
 <div class="contacts">
-  <div class="buttons">
+  <div fxLayoutAlign="start center" class="buttons">
+    <button [ngClass]="{'active': visibility === 0}" (click)="showContacts(0)" class="tab-button">Online</button>
+    <button [ngClass]="{'active': visibility === 1}" (click)="showContacts(1)" class="tab-button">Offline</button>
+    <button [ngClass]="{'active': visibility === 2}" (click)="showContacts(2)" class="tab-button">All</button>
     <button tooltip="add friend" class="icon-button">
       <mat-icon>person_add</mat-icon>
     </button>
@@ -8,8 +11,8 @@
     </button>
   </div>
   <div fxLayout="column">
-    <div (click)="onSelectEvent.next(contact)" *ngFor="let contact of contacts" [ngClass]="{'selected' : selected.id === contact.id}" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px"
-      class="contact">
+    <div (click)="onSelectEvent.next(contact)" *ngFor="let contact of shownContacts" [ngClass]="{'selected' : selected.id === contact.id}"
+      fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="contact">
       <img [src]="contact.image ? contact.image : '../../../assets/profile/profile-pic.png'" class="contact-pic">
       <p class="contact-name">{{ contact.name }}</p>
       <div class="available" [ngClass]="{'online' : contact.online}"></div>
