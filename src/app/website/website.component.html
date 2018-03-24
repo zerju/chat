@@ -1,8 +1,11 @@
 <zerju-layout>
   <article fxLayout="row" class="main">
-    <zerju-contact-panel [selected]="selectedContact" (onSelectEvent)="onContactSelect($event)" [contacts]="contacts" fxFlex="15"
-      class="contacts"></zerju-contact-panel>
+    <zerju-contact-panel (onCreateGroupEvent)="openCreateGroup()" [selected]="selectedContact" (onSelectEvent)="onContactSelect($event)"
+      [contacts]="contacts" fxFlex="15" class="contacts"></zerju-contact-panel>
     <zerju-message-panel (newMessageEvent)="onNewMessage($event)" [selected]="selectedContact" [messages]="messages" fxFlex="85"
       class="messages"></zerju-message-panel>
   </article>
 </zerju-layout>
+<ng-template #createGroup>
+  <zerju-create-group (onCreateEvent)="onGroupCreate($event)"></zerju-create-group>
+</ng-template>

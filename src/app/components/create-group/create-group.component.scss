@@ -1,0 +1,17 @@
+.create {
+    h2 {
+        margin-top: 0;
+    }
+    p {
+        margin: 0;
+    }
+    .buttons {
+        button {
+            margin: 10px;
+            margin-bottom: 0;
+            &:last-of-type {
+                margin-right: 0;
+            }
+        }
+    }
+}

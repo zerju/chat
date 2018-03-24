@@ -9,7 +9,7 @@ import {ContactVisibility} from '../../enums/contact-visibility.enum';
 })
 export class ContactPanelComponent implements OnInit {
   private _contacts: IContact[];
-  visibility = 0;
+  visibility: number;
   shownContacts: IContact[];
   @Input()
   set contacts(c: IContact[]) {
@@ -20,27 +20,31 @@ export class ContactPanelComponent implements OnInit {
 
   @Output()
   onSelectEvent: EventEmitter<IContact> = new EventEmitter<IContact>();
+  @Output()
+  onCreateGroupEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
 
   ngOnInit() {}
 
   showContacts(contactVisibility: number) {
-    this.visibility = contactVisibility;
-    switch (contactVisibility) {
-      case ContactVisibility.ONLINE:
-        this.shownContacts =
-            this._contacts.filter((res) => res.online === true);
-        break;
-      case ContactVisibility.OFFLINE:
-        this.shownContacts =
-            this._contacts.filter((res) => res.online === false);
-        break;
-      case ContactVisibility.ALL:
-        this.shownContacts = this._contacts;
-        break;
-      default:
-        this.shownContacts = this._contacts;
+    if (this.visibility !== contactVisibility) {
+      this.visibility = contactVisibility;
+      switch (contactVisibility) {
+        case ContactVisibility.ONLINE:
+          this.shownContacts =
+              this._contacts.filter((res) => res.online === true);
+          break;
+        case ContactVisibility.OFFLINE:
+          this.shownContacts =
+              this._contacts.filter((res) => res.online === false);
+          break;
+        case ContactVisibility.ALL:
+          this.shownContacts = this._contacts;
+          break;
+        default:
+          this.shownContacts = this._contacts;
+      }
     }
   }
 }

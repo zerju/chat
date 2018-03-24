@@ -6,6 +6,7 @@ import {ComponentsModule} from '../components/components.module';
 
 import {WebsiteRoutingModule} from './website-routing.module';
 import {WebsiteComponent} from './website.component';
+import { MatDialogModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import {WebsiteComponent} from './website.component';
     WebsiteRoutingModule,
     ComponentsModule,
     FlexLayoutModule,
+    MatDialogModule
   ],
   declarations: [WebsiteComponent]
 })

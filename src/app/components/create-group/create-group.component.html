@@ -1,3 +1,17 @@
-<p>
-  create-group works!
-</p>
+<div class="create">
+  <h2>Create group</h2>
+  <div fxLayout="column" fxLayoutGap="10px" class="info">
+    <div fxLayout="column">
+      <p>Group name</p>
+      <input placeholder="Name">
+    </div>
+    <div fxLayout="column">
+      <p>Invited Friends</p>
+      <input placeholder="Invited">
+    </div>
+  </div>
+  <div fxLayoutAlign="end center" fxLayout="row" class="buttons">
+    <button (click)="onCreateEvent.next()">Cancel</button>
+    <button (click)="onCreateEvent.next()" class="primary">Create</button>
+  </div>
+</div>

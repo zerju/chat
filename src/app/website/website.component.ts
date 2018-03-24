@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, TemplateRef} from '@angular/core';
 import {IMessage} from '../core/models/message.model';
 import {IContact} from '../core/models/contact.model';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'zerju-website',
@@ -27,8 +28,12 @@ export class WebsiteComponent implements OnInit {
       image: '../../../assets/profile/anon.jpg'
     }
   ];
+  private _dialogRef$: MatDialogRef<any>;
   selectedContact: IContact;
-  constructor() {}
+
+  @ViewChild('createGroup')
+  private _createGroup: TemplateRef<any>;
+  constructor(private _dialog: MatDialog) {}
 
   ngOnInit() { this.onContactSelect(this.contacts[0]); }
 
@@ -41,5 +46,11 @@ export class WebsiteComponent implements OnInit {
   }
   onNewMessage(message: string) {
     this.messages.push({send: true, value: message});
+  }
+  openCreateGroup() {
+    this._dialogRef$ = this._dialog.open(this._createGroup);
+  }
+  onGroupCreate(event: any) {
+    this._dialogRef$.close();
   }
 }
