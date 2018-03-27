@@ -1,0 +1,44 @@
+.autocomplete {
+    position: relative;
+    .ac-input {
+        width: 100%;
+        outline: none;
+        border: 1px solid rgba(0, 0, 0, 0.24);
+        padding: 5px;
+        display: inline-block;
+        flex-wrap: wrap;
+        .all-added {
+            .added {
+                padding: 2px;
+                border: 1px solid rgba(0, 0, 0, 0.24);
+                background-color: rgba(0, 0, 0, 0.12);
+                margin: 5px 5px;
+                .remove {
+                    height: 12px;
+                    width: 12px;
+                    padding: 0;
+                    &:not(:active) {
+                        background-color: rgba(0, 0, 0, 0.08);
+                    }
+                    &:not(:hover) {
+                        background-color: rgba(0, 0, 0, 0.08);
+                    }
+                    mat-icon {
+                        font-size: 0.9em;
+                    }
+                }
+            }
+        }
+        input {
+            border: none;
+        }
+    }
+    .filteredList {
+        z-index: 999999999;
+        position: absolute;
+        left: 0;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.12);
+        background-color: #FFF;
+        margin-bottom: 10px;
+    }
+}

@@ -1,4 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
+import {IContact} from '../../core/models/contact.model';
+import {FormControl, Validators} from '@angular/forms';
+import {IGroup} from '../../core/models/group.model';
 
 @Component({
   selector: 'zerju-create-group',
@@ -6,13 +9,20 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./create-group.component.scss']
 })
 export class CreateGroupComponent implements OnInit {
+  filtered: IContact[];
+  nameCtrl = new FormControl(null, [Validators.required]);
+  addedContacts: IContact[];
 
-  @Output()
-  onCreateEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Input() contacts: IContact[];
 
-  constructor() { }
+  @Output() onCreateEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  ngOnInit() {
+  constructor() {}
+
+  ngOnInit() {}
+  createGroup() {
+    console.log(this.nameCtrl);
+    const group:
+        IGroup = {name: this.nameCtrl.value, contacts: this.addedContacts};
   }
-
 }

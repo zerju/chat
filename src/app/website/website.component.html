@@ -7,5 +7,5 @@
   </article>
 </zerju-layout>
 <ng-template #createGroup>
-  <zerju-create-group (onCreateEvent)="onGroupCreate($event)"></zerju-create-group>
+  <zerju-create-group [contacts]="contacts" (onCreateEvent)="onGroupCreate($event)"></zerju-create-group>
 </ng-template>

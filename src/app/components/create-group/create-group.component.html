@@ -2,16 +2,17 @@
   <h2>Create group</h2>
   <div fxLayout="column" fxLayoutGap="10px" class="info">
     <div fxLayout="column">
-      <p>Group name</p>
-      <input placeholder="Name">
+      <p>Group name*</p>
+      <input [formControl]="nameCtrl" placeholder="Name">
+      <p class="error" *ngIf="nameCtrl.hasError('required') && nameCtrl.touched">Name is required</p>
     </div>
     <div fxLayout="column">
-      <p>Invited Friends</p>
-      <input placeholder="Invited">
+      <p>Invite Contacts</p>
+      <zerju-autocomplete-add [allElements]="contacts" (onElementAdd)="addedContacts = $event"></zerju-autocomplete-add>
     </div>
   </div>
   <div fxLayoutAlign="end center" fxLayout="row" class="buttons">
-    <button (click)="onCreateEvent.next()">Cancel</button>
-    <button (click)="onCreateEvent.next()" class="primary">Create</button>
+    <button (click)="onCreateEvent.next(undefined)">Cancel</button>
+    <button [disabled]="!nameCtrl.valid" (click)="createGroup()" class="primary">Create</button>
   </div>
 </div>
