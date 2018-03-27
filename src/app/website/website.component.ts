@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild, TemplateRef} from '@angular/core';
 import {IMessage} from '../core/models/message.model';
 import {IContact} from '../core/models/contact.model';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import {MatDialog, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'zerju-website',
@@ -21,6 +21,9 @@ export class WebsiteComponent implements OnInit {
   contacts: IContact[] = [
     {id: '1', name: 'Jure Žerak', online: true},
     {id: '2', name: 'Test Testing', online: true},
+    {id: '2', name: 'Test Testing2', online: true},
+    {id: '2', name: 'Test Testing3', online: true},
+    {id: '2', name: 'Test Testing4', online: true},
     {
       id: '3',
       name: 'Anonymous',
@@ -31,8 +34,7 @@ export class WebsiteComponent implements OnInit {
   private _dialogRef$: MatDialogRef<any>;
   selectedContact: IContact;
 
-  @ViewChild('createGroup')
-  private _createGroup: TemplateRef<any>;
+  @ViewChild('createGroup') private _createGroup: TemplateRef<any>;
   constructor(private _dialog: MatDialog) {}
 
   ngOnInit() { this.onContactSelect(this.contacts[0]); }
@@ -47,10 +49,6 @@ export class WebsiteComponent implements OnInit {
   onNewMessage(message: string) {
     this.messages.push({send: true, value: message});
   }
-  openCreateGroup() {
-    this._dialogRef$ = this._dialog.open(this._createGroup);
-  }
-  onGroupCreate(event: any) {
-    this._dialogRef$.close();
-  }
+  openCreateGroup() { this._dialogRef$ = this._dialog.open(this._createGroup); }
+  onGroupCreate(event: any) { this._dialogRef$.close(); }
 }

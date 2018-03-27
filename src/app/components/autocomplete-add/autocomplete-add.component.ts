@@ -18,12 +18,15 @@ export class AutocompleteAddComponent implements OnInit {
   addedElements: any[] = [];
   numOfInput: number;
   active = false;
+  top: string;
+  left: string;
 
   @Input() allElements: any[];
 
   @Output() onElementAdd: EventEmitter<any[]> = new EventEmitter<any[]>();
 
   @ViewChild('input') input: ElementRef;
+  @ViewChild('addedInput') addedInput: ElementRef;
 
   constructor() {}
 
@@ -36,6 +39,10 @@ export class AutocompleteAddComponent implements OnInit {
     this.onElementAdd.next(this.addedElements);
   }
   onFilter(input: string) {
+    this.top = this.addedInput.nativeElement.getBoundingClientRect().top +
+               window.scrollY;
+    this.left = this.addedInput.nativeElement.getBoundingClientRect().left +
+                window.scrollX;
     if (input.length > 0 && input.trim().length > 0) {
       this.active = true;
       this.numOfInput = input.length;

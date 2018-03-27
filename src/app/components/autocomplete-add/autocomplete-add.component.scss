@@ -1,11 +1,9 @@
 .autocomplete {
-    position: relative;
     .ac-input {
         width: 100%;
         outline: none;
         border: 1px solid rgba(0, 0, 0, 0.24);
         padding: 5px;
-        display: inline-block;
         flex-wrap: wrap;
         .all-added {
             .added {
@@ -34,9 +32,8 @@
         }
     }
     .filteredList {
-        z-index: 999999999;
-        position: absolute;
-        left: 0;
+        z-index: 999999;
+        position: fixed;
         box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.12);
         background-color: #FFF;
         margin-bottom: 10px;
