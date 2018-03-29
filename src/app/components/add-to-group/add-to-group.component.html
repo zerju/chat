@@ -1,0 +1,8 @@
+<div class="dialog">
+  <p>Manage Contacts</p>
+  <zerju-autocomplete-add [addedElements]="addedElements" [allElements]="contacts" (onElementAdd)="newContacts = $event"></zerju-autocomplete-add>
+  <div fxLayoutGap="10px" class="buttons" fxLayoutAlign="end center" fxLayout="row">
+    <button (click)="onElementAdd.next(undefined)">Cancel</button>
+    <button (click)="onElementAdd.next(newContacts)">Add</button>
+  </div>
+</div>

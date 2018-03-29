@@ -3,4 +3,6 @@ export interface IContact {
   name: string;
   online: boolean;
   image?: string;
+  type?: number;
+  participants?: IContact[];
 }

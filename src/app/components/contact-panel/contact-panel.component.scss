@@ -1,5 +1,6 @@
 .buttons {
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    width: 15vw;
     button {
         &.icon-button {
             border-bottom: none;
@@ -11,6 +12,9 @@
             border-bottom: none;
             border-top: none;
             cursor: pointer;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             &:hover {
                 background-color: rgba(0, 0, 0, 0.1);
             }

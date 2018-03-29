@@ -1,4 +1,6 @@
+import {IContact} from './contact.model';
 export interface IMessage {
-  send: boolean;
+  id?: string;
+  sentBy: IContact;
   value: string;
 }

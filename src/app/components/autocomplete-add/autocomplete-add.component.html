@@ -1,5 +1,5 @@
 <div class="autocomplete">
-  <div fxLayout="row" class="ac-input">
+  <div (click)="focusInput()" fxLayout="row" class="ac-input">
     <div #addedInput fxLayout="start center" class="all-added">
       <div fxLayoutGap="3px" fxLayoutAlign="center center" fxLayout="row" class="added" *ngFor="let el of addedElements;let i = index">{{el.name}}
         <button fxLayoutAlign="center center" (click)="removeAddedByIndex(i)" class="remove">

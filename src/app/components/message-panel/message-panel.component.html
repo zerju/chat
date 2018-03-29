@@ -1,19 +1,23 @@
 <div fxLayoutAlign="start center" class="participants" fxLayout="row">
   <img class="participant-pic" [src]="getImage()">
-  <h2 class="participant-name">{{ selected.name }}</h2>
+  <h2 [matTooltip]="getParticipants()" class="participant-name">{{ selected.name }}</h2>
+  <div class="group-buttons">
+    <button *ngIf="selected.type === contactType.group" (click)="leaveChatGroup.next()">Leave Group</button>
+    <button *ngIf="selected.type === contactType.group" (click)="addToGroup.next()">Manage Group Contacts</button>
+  </div>
 </div>
 <div class="messages" fxLayout="column">
   <div *ngFor="let message of messages;let i = index">
-    <div *ngIf="!message.send" class="images">
-      <img *ngIf="i>0 && message.send !== messages[i - 1].send;else imagewidthplaceholder" class="messages-pic" [src]="getImage()">
-      <img *ngIf="i === 0" class="messages-pic" [src]="getImage()">
+    <div *ngIf="!myMessage(message)" class="images">
+      <img *ngIf="i>0 && myMessage(message) !== myMessage(messages[i - 1]);else imagewidthplaceholder" class="messages-pic" [src]="getImage(message)">
+      <img *ngIf="i === 0" class="messages-pic" [src]="getImage(message)">
     </div>
     <ng-template #imagewidthplaceholder>
       <div *ngIf="i !== 0" class="image-width-placeholder">
 
       </div>
     </ng-template>
-    <div [ngClass]="{'recieve': !message.send, 'send': message.send}">
+    <div [ngClass]="{'recieve': !myMessage(message), 'send': myMessage(message)}">
       <p>{{message.value}}</p>
     </div>
   </div>

@@ -14,6 +14,7 @@ import {
   AutocompleteAddComponent
 } from './autocomplete-add/autocomplete-add.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AddToGroupComponent} from './add-to-group/add-to-group.component';
 
 const COMPONENTS: any[] = [
   FooterComponent,
@@ -23,7 +24,8 @@ const COMPONENTS: any[] = [
   LayoutComponent,
   CreateGroupComponent,
   AddContactComponent,
-  AutocompleteAddComponent
+  AutocompleteAddComponent,
+  AddToGroupComponent
 ];
 
 @NgModule({
@@ -33,7 +35,8 @@ const COMPONENTS: any[] = [
     MatTooltipModule,
     FlexLayoutModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTooltipModule
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS
