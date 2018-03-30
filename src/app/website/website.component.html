@@ -1,7 +1,7 @@
 <zerju-layout>
   <article fxLayout="row" class="main">
-    <zerju-contact-panel (onCreateGroupEvent)="openCreateGroup()" [selected]="selectedContact" (onSelectEvent)="onContactSelect($event)"
-      [contacts]="contacts" fxFlex="15" class="contacts"></zerju-contact-panel>
+    <zerju-contact-panel (addContactEvent)="openAddContactDialog()" (onCreateGroupEvent)="openCreateGroup()" [selected]="selectedContact"
+      (onSelectEvent)="onContactSelect($event)" [contacts]="contacts" fxFlex="15" class="contacts"></zerju-contact-panel>
     <zerju-message-panel (addToGroup)="onAddToGroup()" (leaveChatGroup)="onLeaveChatGroup()" (newMessageEvent)="onNewMessage($event)"
       [selected]="selectedContact" [messages]="messages" fxFlex="85" class="messages"></zerju-message-panel>
   </article>
@@ -11,4 +11,7 @@
 </ng-template>
 <ng-template #addToGroup>
   <zerju-add-to-group [addedElements]="alreadyAdded" [contacts]="contacts" (onElementAdd)="onAddContactToGroup($event)"></zerju-add-to-group>
+</ng-template>
+<ng-template #addContact>
+  <zerju-add-contact [foundContacts]="foundContacts" (addContactEvent)="onAddContact($event)" (findContactEvent)="onFindContact($event)"></zerju-add-contact>
 </ng-template>

@@ -41,6 +41,7 @@ export class WebsiteComponent implements OnInit {
       participants: this.participants
     }
   ];
+  foundContacts: IContact[] = [];
   me = this.contacts[0];
   messages: IMessage[] = [
     {sentBy: this.contacts[1], value: 'Hello there'},
@@ -56,6 +57,7 @@ export class WebsiteComponent implements OnInit {
 
   @ViewChild('createGroup') private _createGroup: TemplateRef<any>;
   @ViewChild('addToGroup') private _addToGroup: TemplateRef<any>;
+  @ViewChild('addContact') private _addContact: TemplateRef<any>;
   constructor(private _dialog: MatDialog) {}
 
   ngOnInit() { this.onContactSelect(this.contacts[0]); }
@@ -101,4 +103,11 @@ export class WebsiteComponent implements OnInit {
     }
     this._dialogRef$.close();
   }
+  openAddContactDialog() {
+    this._dialogRef$ = this._dialog.open(this._addContact);
+  }
+  onFindContact(contactName: string) {
+    this.foundContacts = [...this.contacts];
+  }
+  onAddContact(contact: IContact) { console.log('Contact added'); }
 }

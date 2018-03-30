@@ -4,7 +4,7 @@
     <button matTooltip="Offline" [ngClass]="{'active': visibility === 1}" (click)="showContacts(1)" class="tab-button">Offline</button>
     <button matTooltip="Group" [ngClass]="{'active': visibility === 2}" (click)="showContacts(2)" class="tab-button">Group</button>
     <button matTooltip="All" [ngClass]="{'active': visibility === 3}" (click)="showContacts(3)" class="tab-button">All</button>
-    <button matTooltip="Add Friend" class="icon-button">
+    <button (click)="addContactEvent.next()" matTooltip="Add Friend" class="icon-button">
       <mat-icon>person_add</mat-icon>
     </button>
     <button matTooltip="Create Group" (click)="onCreateGroupEvent.next()" class="icon-button">

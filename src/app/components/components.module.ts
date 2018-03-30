@@ -15,6 +15,7 @@ import {
 } from './autocomplete-add/autocomplete-add.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AddToGroupComponent} from './add-to-group/add-to-group.component';
+import {PipesModule} from '../pipes/pipes.module';
 
 const COMPONENTS: any[] = [
   FooterComponent,
@@ -36,7 +37,8 @@ const COMPONENTS: any[] = [
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    PipesModule
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS

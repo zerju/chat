@@ -1,0 +1,21 @@
+.contact {
+    margin-top: 10px;
+    background-color: rgba(0, 0, 0, 0.02);
+    p {
+        margin: 0;
+        height: 30px;
+    }
+    .icon-button {
+        height: 30px;
+        width: 30px;
+        margin-right: 10px;
+        margin-left: auto;
+        border-radius: 2px;
+        background-color: rgba(0, 0, 0, 0.01);
+        mat-icon {
+            font-size: 1em;
+            height: 12px;
+            width: 12px;
+        }
+    }
+}

@@ -24,6 +24,7 @@ export class ContactPanelComponent implements OnInit {
   @Output()
   onSelectEvent: EventEmitter<IContact> = new EventEmitter<IContact>();
   @Output() onCreateGroupEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() addContactEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
 

@@ -1,3 +1,18 @@
-<p>
-  add-contact works!
-</p>
+<div>
+  <h3>Add a contact</h3>
+  <div fxLayoutGap="10px" fxLayout="row">
+    <input (input)="input = $event.srcElement.value" placeholder="Contact name">
+    <button (click)="findContacts()">Find</button>
+  </div>
+  <div *ngIf="foundContacts.length > 0 && searched;else notFound" fxLayouAlign="center center">
+    <div *ngFor="let contact of foundContacts;let i = index" class="contact" fxLayout="row">
+      <p fxLayoutAlign="start center" fxFlex="50">{{contact.name}}</p>
+      <button [disabled]="clicked | contains: i.toString()" (click)="addContact(contact,i)" class="icon-button">
+        <mat-icon>person_add</mat-icon>
+      </button>
+    </div>
+  </div>
+  <ng-template #notFound>
+    <p *ngIf="searched">No contacts found</p>
+  </ng-template>
+</div>

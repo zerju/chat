@@ -10,10 +10,13 @@ import {ComponentsModule} from './components/components.module';
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule, AppRoutingModule, ComponentsModule,
+    BrowserModule,
+    AppRoutingModule,
+    ComponentsModule,
     BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}
