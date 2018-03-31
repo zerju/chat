@@ -52,6 +52,7 @@ export class WebsiteComponent implements OnInit {
     {sentBy: this.contacts[0], value: 'I am fine'},
     {sentBy: this.contacts[1], value: 'Good to hear'}
   ];
+  addedContacts: IContact[] = [];
   private _dialogRef$: MatDialogRef<any>;
   selectedContact: IContact;
 
@@ -107,7 +108,10 @@ export class WebsiteComponent implements OnInit {
     this._dialogRef$ = this._dialog.open(this._addContact);
   }
   onFindContact(contactName: string) {
-    this.foundContacts = [...this.contacts];
+    this.foundContacts = [...this.contacts.filter((res) => this.addedContacts.indexOf(res) === -1)];
   }
-  onAddContact(contact: IContact) { console.log('Contact added'); }
+  onAddContact(contact: IContact) {
+    console.log('Contact added');
+    this.addedContacts.push(contact);
+   }
 }

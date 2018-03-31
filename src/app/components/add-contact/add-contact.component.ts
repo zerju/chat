@@ -10,9 +10,9 @@ export class AddContactComponent implements OnInit {
   input = '';
   searched = false;
   isClickedOnce: false;
-  clicked: string[] = [];
 
-  @Input() foundContacts: IContact[];
+  @Input()
+  foundContacts: IContact[];
 
   @Output() findContactEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output()
@@ -27,8 +27,9 @@ export class AddContactComponent implements OnInit {
       this.searched = true;
     }
   }
-  addContact(contact: IContact, index: number) {
-    this.clicked.push(index.toString());
+  addContact(contact: IContact) {
+    const index = this.foundContacts.indexOf(contact);
+    this.foundContacts.splice(index, 1);
     this.addContactEvent.next(contact);
   }
 }

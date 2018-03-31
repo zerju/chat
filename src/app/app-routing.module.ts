@@ -6,6 +6,10 @@ const routes: Routes = [{
   path: '',
   pathMatch: 'full',
   loadChildren: './website/website.module#WebsiteModule'
+},
+{
+  path: 'auth',
+  loadChildren: './auth/auth.module#AuthModule'
 }];
 
 @NgModule({
