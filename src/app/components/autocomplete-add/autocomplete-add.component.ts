@@ -14,15 +14,15 @@ import {
   styleUrls: ['./autocomplete-add.component.scss']
 })
 export class AutocompleteAddComponent implements OnInit {
-  filtered: any[];
+  filtered: any[] = [];
   // addedElements: any[] = [];
   numOfInput: number;
   active = false;
   top: string;
   left: string;
 
-  @Input() allElements: any[];
-  @Input() addedElements: any[];
+  @Input() allElements: any[] = [];
+  @Input() addedElements: any[] = [];
 
   @Output() onElementAdd: EventEmitter<any[]> = new EventEmitter<any[]>();
 
