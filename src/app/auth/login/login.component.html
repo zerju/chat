@@ -8,6 +8,6 @@
     <p>Password</p>
     <input formControlName="password" placeholder="Password" type="password">
   </div>
-  <button [disabled]="!form.valid" [routerLink]="''">Login</button>
+  <button [disabled]="!form.valid" (click)="login()">Login</button>
   <a [routerLink]="'/auth/register'">Register</a>
 </div>
