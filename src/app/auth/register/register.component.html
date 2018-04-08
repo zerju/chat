@@ -1,23 +1,25 @@
-<div fxLayoutGap="10px" class="register" fxLayout="column" fxLayoutAlign="center center">
+<div [formGroup]="form" fxLayoutGap="10px" class="register" fxLayout="column" fxLayoutAlign="center center">
   <h3>Register</h3>
   <div class="info-input" fxLayout="row">
-    <p>Username:</p>
-    <input placeholder="Username">
+    <p>Username*</p>
+    <input formControlName="username" placeholder="Username">
   </div>
   <div class="info-input" fxLayout="row">
-    <p>Email:</p>
-    <input placeholder="Email">
+    <p>Email*</p>
+    <input formControlName="email" placeholder="Email">
   </div>
   <div class="info-input" fxLayout="row">
-    <p>Password:</p>
-    <input placeholder="Password" type="password">
+    <p>Password*</p>
+    <input formControlName="password" placeholder="Password" type="password">
   </div>
   <div class="info-input" fxLayout="row">
-    <p>Repeat password:</p>
-    <input placeholder="Repeat password" type="password">
+    <p>Repeat password*</p>
+    <input formControlName="repeatPassword" placeholder="Repeat password" type="password">
   </div>
+  <p class="required">* - required field</p>
   <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
-    <button>Register</button>
+    <button [disabled]="(!form.valid || !passwordsMatch)">Register</button>
     <a [routerLink]=" '/auth/login' ">Login</a>
   </div>
+  <p *ngIf="!passwordsMatch && repeatTouched">They don't match</p>
 </div>

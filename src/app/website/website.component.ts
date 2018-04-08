@@ -4,6 +4,8 @@ import {IContact} from '../core/models/contact.model';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {IGroup} from '../core/models/group.model';
 import {ContactType} from '../enums/contact-type.enum';
+import { environment } from '../../environments/environment';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'zerju-website',
@@ -59,9 +61,10 @@ export class WebsiteComponent implements OnInit {
   @ViewChild('createGroup') private _createGroup: TemplateRef<any>;
   @ViewChild('addToGroup') private _addToGroup: TemplateRef<any>;
   @ViewChild('addContact') private _addContact: TemplateRef<any>;
-  constructor(private _dialog: MatDialog) {}
+  constructor(private _dialog: MatDialog, private _title: Title) {}
 
-  ngOnInit() { this.onContactSelect(this.contacts[0]); }
+  ngOnInit() { this._title.setTitle(environment.titlePrefix + 'Chat');
+  this.onContactSelect(this.contacts[0]); }
 
   /*
   here I need to call API for messages

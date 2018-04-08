@@ -1,6 +1,4 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import isNil from 'lodash/isNil';
-import isObject from 'lodash/isObject';
 
 @Pipe({name: 'contains'})
 export class ContainsPipe implements PipeTransform {
@@ -8,7 +6,7 @@ export class ContainsPipe implements PipeTransform {
     if (array !== undefined && array != null) {
       let i = array.length;
       while (i--) {
-        if (isObject(object)) {
+        if (typeof object === 'object') {
           if (array[i].id === object.id) {
             return true;
           }
