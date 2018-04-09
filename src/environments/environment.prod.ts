@@ -1,4 +1,6 @@
 export const environment = {
   production: true,
-  titlePrefix: 'Chat :: '
+  titlePrefix: 'Chat :: ',
+  loginRoute: 'auth/login',
+  rootRoute: ''
 };
