@@ -1,5 +1,11 @@
 <div class="whole">
   <img src="../../../assets/chat-icon.svg">
-  <input class="search-contacts" type="text" placeholder="Search contacts"/>
-  <img class="profile" [src]="accountImage">
+  <input class="search-contacts" type="text" placeholder="Search contacts" />
+  <img (click)="showMenu = !showMenu" #handlerElement class="profile" [src]="accountImage">
+  <zerju-menu [menuHandlerElement]="menuHandler">
+    <div class="menu" fxLayout="column">
+      <h3>My account name</h3>
+      <button (click)="logoutEvent.emit()">Logout</button>
+    </div>
+  </zerju-menu>
 </div>

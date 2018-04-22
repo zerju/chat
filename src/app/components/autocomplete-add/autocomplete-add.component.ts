@@ -1,12 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
-  ElementRef
-} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'zerju-autocomplete-add',
@@ -34,7 +26,6 @@ export class AutocompleteAddComponent implements OnInit {
   ngOnInit() {}
 
   addElement(el: any) {
-    this.input.nativeElement.focus();
     this.input.nativeElement.value = '';
     this.addedElements.push(el);
     this.allElements.splice(this.allElements.indexOf(el), 1);
@@ -43,9 +34,9 @@ export class AutocompleteAddComponent implements OnInit {
   }
   onFilter(input: string) {
     this.top = this.addedInput.nativeElement.getBoundingClientRect().top +
-               window.scrollY;
+        window.scrollY;
     this.left = this.addedInput.nativeElement.getBoundingClientRect().left +
-                window.scrollX;
+        window.scrollX;
     if (input.length > 0 && input.trim().length > 0) {
       this.allElements = this.allElements.filter(
           (res) =>
@@ -71,5 +62,4 @@ export class AutocompleteAddComponent implements OnInit {
     this.addedElements.splice(index, 1);
     this.onElementAdd.next(this.addedElements);
   }
-  focusInput() { this.input.nativeElement.focus(); }
 }

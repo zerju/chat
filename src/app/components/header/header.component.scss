@@ -9,19 +9,29 @@
         &:hover {
             cursor: pointer;
         }
-        &.profile{
-          border-radius: 50%;
-          position: absolute;
-          right: 10px;
+        &.profile {
+            border-radius: 50%;
+            position: absolute;
+            right: 40px;
         }
     }
-    .search-contacts{
-      border-radius: 5px;
-      padding: 5px;
-      margin-left: 50px;
-      width: 50%;
-      height: 20px;
-      border: 2px solid rgba(0,0,0,0.24);
-      outline: none;
+    .search-contacts {
+        border-radius: 5px;
+        padding: 5px;
+        margin-left: 50px;
+        width: 50%;
+        height: 20px;
+        border: 2px solid rgba(0, 0, 0, 0.24);
+        outline: none;
+    }
+    .menu {
+        h3 {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+            margin: 0;
+            padding: 10px;
+        }
+        button {
+            border: none;
+        }
     }
 }

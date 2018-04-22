@@ -1,13 +1,15 @@
-import { registerActionType } from '../util/reducers.util';
-import { Action } from '@ngrx/store';
-import { IRegister } from '../models/register.model';
-import { ILogin } from '../models/login.model';
+import {Action} from '@ngrx/store';
+
+import {ILogin} from '../models/login.model';
+import {IRegister} from '../models/register.model';
+import {registerActionType} from '../util/reducers.util';
 
 export const AUTH_ACTIONS = {
   REGISTER_USER: registerActionType('[Auth Actions] Register User'),
   SUCCESS: registerActionType('[Auth Actions] Success'),
   FAIL: registerActionType('[Auth Actions] Fail'),
-  LOGIN: registerActionType('[Auth Actions] Login')
+  LOGIN: registerActionType('[Auth Actions] Login'),
+  LOGOUT: registerActionType('[Auth Actions] Logout')
 };
 
 export class RegisterUserAction implements Action {
@@ -25,4 +27,8 @@ export class AuthFailAction implements Action {
 export class LoginAction implements Action {
   type = AUTH_ACTIONS.LOGIN;
   constructor(payload: ILogin) {}
+}
+export class LogoutAction implements Action {
+  type = AUTH_ACTIONS.LOGOUT;
+  constructor() {}
 }
