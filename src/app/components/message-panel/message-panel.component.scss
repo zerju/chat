@@ -72,7 +72,7 @@
     position: relative;
     textarea {
         width: calc(100% - 124px);
-        height: calc(100% - 30px);
+        height: calc(100% - 29px);
         padding: 15px;
         padding-right: 0;
         border: none;
@@ -85,7 +85,7 @@
     button {
         position: fixed;
         right: 24px;
-        bottom: 75px;
+        bottom: 7vh;
         width: 76px;
     }
 }

@@ -8,12 +8,8 @@ import {isEqual} from 'lodash';
 })
 export class MenuComponent implements OnInit {
   show = false;
-  offsetPosition = 0;
-  innerHeight: number;
-  innerWidth: number;
-  @Input() menuHandlerElement: ElementRef;
-  // @Input() this comes later
-  position = 'bottom';
+  @Input() menuHandlerElement: HTMLElement;
+  @Input() position = 'bottom';
 
   @ViewChild('divEl') private _divEl: ElementRef;
 
@@ -22,50 +18,59 @@ export class MenuComponent implements OnInit {
   ngOnInit() {}
 
   closeOpen(event: any) {
-    if (!isEqual(event.target, this.menuHandlerElement.nativeElement) &&
-        !this.show) {
+    if (!isEqual(event.target, this.menuHandlerElement) && !this.show) {
       return;
     }
-    if (!isEqual(event.target, this.menuHandlerElement.nativeElement)) {
+    if (!isEqual(event.target, this.menuHandlerElement)) {
       this.show = false;
-    } else if (
-        isEqual(event.target, this.menuHandlerElement.nativeElement) &&
-        this.show) {
+    } else if (isEqual(event.target, this.menuHandlerElement) && this.show) {
       this.show = false;
     } else {
-      this.show = true;
-      setTimeout(() => this.setMenuPosition(), 0);
+      for (let i = 0; i < 2; i++) {
+        this.show = true;
+        setTimeout(() => {
+          this.setMenuPosition();
+        }, 1);
+        if (i === 0) {
+          this.show = false;
+        }
+      }
     }
   }
 
   setMenuPosition() {
-    this.innerHeight = window.innerHeight;
-    this.innerWidth = window.innerWidth;
-    const triggerEl = this.menuHandlerElement.nativeElement;
+    const innerHeight = window.innerHeight;
+    const innerWidth = window.innerWidth;
+    let offsetTop = 0;
+    let offsetLeft = 0;
+    const triggerEl = this.menuHandlerElement;
     const menuEl = this._element.nativeElement;
     const divEl = this._divEl.nativeElement;
     switch (this.position) {
       case 'top': {
+        offsetLeft = triggerEl.offsetWidth;
         break;
       }
       case 'bottom': {
-        this.offsetPosition = triggerEl.offsetHeight;
+        offsetTop = triggerEl.offsetHeight;
+        offsetLeft = triggerEl.offsetWidth / 2;
         break;
       }
       case 'left': {
-        this.offsetPosition = triggerEl.x;
+        offsetLeft = -triggerEl.offsetWidth / 2;
         break;
       }
       case 'right': {
-        this.offsetPosition = triggerEl.x;
+        offsetLeft = triggerEl.offsetLeft / 2;
         break;
       }
-      default: { this.offsetPosition = triggerEl.offsetHeight; }
+      default: { offsetTop = triggerEl.offsetHeight; }
     }
-    let left = triggerEl.x + this.offsetPosition - divEl.offsetWidth;
-    const top = triggerEl.y + this.offsetPosition;
-    if (left > this.innerWidth) {
-      left = left + (this.innerWidth - left);
+    let left = triggerEl.offsetLeft + offsetLeft - divEl.offsetWidth +
+        triggerEl.offsetWidth / 2;
+    const top = triggerEl.offsetTop + offsetTop;
+    if ((left + triggerEl.offsetWidth) > innerWidth) {
+      left = left + (innerWidth - left);
     }
     if (left < 0) {
       left = 0;

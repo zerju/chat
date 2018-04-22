@@ -8,7 +8,6 @@ import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@a
 export class HeaderComponent implements OnInit {
   accountImage = '../../../assets/profile/profile-pic.png';
   showMenu = false;
-  @ViewChild('handlerElement') menuHandler: ElementRef;
   @Output() logoutEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
