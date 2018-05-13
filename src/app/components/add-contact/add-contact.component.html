@@ -6,7 +6,7 @@
   </div>
   <div *ngIf="foundContacts.length > 0 && searched;else notFound" fxLayouAlign="center center">
     <div *ngFor="let contact of foundContacts" class="contact" fxLayout="row">
-      <p fxLayoutAlign="start center" fxFlex="50">{{contact.name}}</p>
+      <p fxLayoutAlign="start center" fxFlex="50">{{contact.username}}</p>
       <button (click)="addContact(contact)" class="icon-button">
         <mat-icon>person_add</mat-icon>
       </button>

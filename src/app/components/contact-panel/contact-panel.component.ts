@@ -35,11 +35,11 @@ export class ContactPanelComponent implements OnInit {
     switch (contactVisibility) {
       case ContactVisibility.ONLINE:
         this.shownContacts =
-            this._contacts.filter((res) => res.online === true);
+            this._contacts.filter((res) => res.status.online === true);
         break;
       case ContactVisibility.OFFLINE:
         this.shownContacts =
-            this._contacts.filter((res) => res.online === false);
+            this._contacts.filter((res) => res.status.online === false);
         break;
       case ContactVisibility.GROUP:
         this.shownContacts =

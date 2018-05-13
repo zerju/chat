@@ -1,11 +1,12 @@
-import {Component, OnInit, ViewChild, TemplateRef} from '@angular/core';
-import {IMessage} from '../core/models/message.model';
-import {IContact} from '../core/models/contact.model';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material';
+import {Title} from '@angular/platform-browser';
+
+import {environment} from '../../environments/environment';
+import {IContact} from '../core/models/contact.model';
 import {IGroup} from '../core/models/group.model';
+import {IMessage} from '../core/models/message.model';
 import {ContactType} from '../enums/contact-type.enum';
-import { environment } from '../../environments/environment';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'zerju-website',
@@ -15,29 +16,79 @@ import { Title } from '@angular/platform-browser';
 export class WebsiteComponent implements OnInit {
   alreadyAdded = [];
   participants: IContact[] = [
-    {id: '1', name: 'Jure Žerak', online: true, type: 0},
-    {id: '2', name: 'Test Testing', online: true, type: 0},
-    {id: '3', name: 'Test Testing2', online: true, type: 0},
-    {id: '4', name: 'Test Testing3', online: true, type: 0},
-    {id: '5', name: 'Test Testing4', online: true, type: 0}
+    {
+      id: '1',
+      username: 'Jure Žerak',
+      status: {online: true, banned: false},
+      type: 0
+    },
+    {
+      id: '2',
+      username: 'Test Testing',
+      status: {online: true, banned: false},
+      type: 0
+    },
+    {
+      id: '3',
+      username: 'Test Testing2',
+      status: {online: true, banned: false},
+      type: 0
+    },
+    {
+      id: '4',
+      username: 'Test Testing3',
+      status: {online: true, banned: false},
+      type: 0
+    },
+    {
+      id: '5',
+      username: 'Test Testing4',
+      status: {online: true, banned: false},
+      type: 0
+    }
   ];
   contacts: IContact[] = [
-    {id: '1', name: 'Jure Žerak', online: true, type: 0},
-    {id: '2', name: 'Test Testing', online: true, type: 0},
-    {id: '3', name: 'Test Testing2', online: true, type: 0},
-    {id: '4', name: 'Test Testing3', online: true, type: 0},
-    {id: '5', name: 'Test Testing4', online: true, type: 0},
+    {
+      id: '1',
+      username: 'Jure Žerak',
+      status: {online: true, banned: false},
+      type: 0
+    },
+    {
+      id: '2',
+      username: 'Test Testing',
+      status: {online: true, banned: false},
+      type: 0
+    },
+    {
+      id: '3',
+      username: 'Test Testing2',
+      status: {online: true, banned: false},
+      type: 0
+    },
+    {
+      id: '4',
+      username: 'Test Testing3',
+      status: {online: true, banned: false},
+      type: 0
+    },
+    {
+      id: '5',
+      username: 'Test Testing4',
+      status: {online: true, banned: false},
+      type: 0
+    },
     {
       id: '6',
-      name: 'Anonymous',
-      online: false,
+      username: 'Anonymous',
+      status: {online: true, banned: false},
       image: '../../../assets/profile/anon.jpg',
       type: 0
     },
     {
       id: '7',
-      name: 'Group Chat',
-      online: true,
+      username: 'Group Chat',
+      status: {online: true, banned: false},
       image: '../../../assets/profile/anon.jpg',
       type: 1,
       participants: this.participants
@@ -63,8 +114,10 @@ export class WebsiteComponent implements OnInit {
   @ViewChild('addContact') private _addContact: TemplateRef<any>;
   constructor(private _dialog: MatDialog, private _title: Title) {}
 
-  ngOnInit() { this._title.setTitle(environment.titlePrefix + 'Chat');
-  this.onContactSelect(this.contacts[0]); }
+  ngOnInit() {
+    this._title.setTitle(environment.titlePrefix + 'Chat');
+    this.onContactSelect(this.contacts[0]);
+  }
 
   /*
   here I need to call API for messages
@@ -79,18 +132,21 @@ export class WebsiteComponent implements OnInit {
     if (contact.participants) {
       this.alreadyAdded = contact.participants;
     }
-    this.messages[1].value = 'Yo ' + contact.name;
+    this.messages[1].value = 'Yo ' + contact.username;
   }
   onNewMessage(message: string) {
     this.messages.push({sentBy: this.me, value: message});
   }
-  openCreateGroup() { this._dialogRef$ = this._dialog.open(this._createGroup); }
+  openCreateGroup() {
+    this._dialogRef$ = this._dialog.open(this._createGroup);
+  }
   onGroupCreate(group: IGroup) {
     if (group) {
       this.contacts.push({
         id: (this.contacts.length + 1).toString(),
-        name: group.name,
-        online: true,
+        username: group.name,
+        email: 'tralala@email.com',
+        status: {online: true, banned: false},
         image: '../../../assets/profile/group_chat.jpg',
         type: 1,
         participants: group.contacts
@@ -99,8 +155,12 @@ export class WebsiteComponent implements OnInit {
     }
     this._dialogRef$.close();
   }
-  onLeaveChatGroup() { console.log('Left chat group'); }
-  onAddToGroup() { this._dialogRef$ = this._dialog.open(this._addToGroup); }
+  onLeaveChatGroup() {
+    console.log('Left chat group');
+  }
+  onAddToGroup() {
+    this._dialogRef$ = this._dialog.open(this._addToGroup);
+  }
   onAddContactToGroup(contacts: IContact[]) {
     if (contacts) {
       this.selectedContact.participants = contacts;
@@ -111,10 +171,11 @@ export class WebsiteComponent implements OnInit {
     this._dialogRef$ = this._dialog.open(this._addContact);
   }
   onFindContact(contactName: string) {
-    this.foundContacts = [...this.contacts.filter((res) => this.addedContacts.indexOf(res) === -1)];
+    this.foundContacts = [...this.contacts.filter(
+        (res) => this.addedContacts.indexOf(res) === -1)];
   }
   onAddContact(contact: IContact) {
     console.log('Contact added');
     this.addedContacts.push(contact);
-   }
+  }
 }

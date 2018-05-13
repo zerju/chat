@@ -44,7 +44,7 @@ export class AutocompleteAddComponent implements OnInit {
       this.active = true;
       this.numOfInput = input.length;
       this.filtered = this.allElements.filter((res) => {
-        return res.name.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+        return res.username.toLowerCase().indexOf(input.toLowerCase()) >= 0;
       });
     } else {
       this.filtered = [];

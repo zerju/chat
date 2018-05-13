@@ -1,14 +1,7 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ViewChild,
-  ElementRef,
-  Output,
-  EventEmitter
-} from '@angular/core';
-import {IMessage} from '../../core/models/message.model';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+
 import {IContact} from '../../core/models/contact.model';
+import {IMessage} from '../../core/models/message.model';
 import {ContactType} from '../../enums/contact-type.enum';
 
 @Component({
@@ -17,7 +10,12 @@ import {ContactType} from '../../enums/contact-type.enum';
   styleUrls: ['./message-panel.component.scss']
 })
 export class MessagePanelComponent implements OnInit {
-  me: IContact = {id: '1', name: 'Jure Žerak', online: true, type: 0};
+  me: IContact = {
+    id: '1',
+    username: 'Jure Žerak',
+    status: {online: true, banned: false},
+    type: 0
+  };
   contactType = ContactType;
   @Input() messages: IMessage[];
   @Input() selected: IContact;
@@ -58,11 +56,13 @@ export class MessagePanelComponent implements OnInit {
       return false;
     }
   }
-  checkEvent(event: any) { console.log(event); }
+  checkEvent(event: any) {
+    console.log(event);
+  }
   getParticipants() {
     if (this.selected.type === ContactType.single) {
-      return this.selected.name;
+      return this.selected.username;
     }
-    return this.selected.participants.map((res) => res.name).join(', ');
+    return this.selected.participants.map((res) => res.username).join(', ');
   }
 }

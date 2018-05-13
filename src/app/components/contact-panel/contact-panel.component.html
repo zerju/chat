@@ -15,8 +15,8 @@
     <div (click)="onSelectEvent.next(contact)" *ngFor="let contact of shownContacts" [ngClass]="{'selected' : selected.id === contact.id}"
       fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="contact">
       <img [src]="contact.image ? contact.image : '../../../assets/profile/profile-pic.png'" class="contact-pic">
-      <p class="contact-name">{{ contact.name }}</p>
-      <div class="available" [ngClass]="{'online' : contact.online}"></div>
+      <p class="contact-name">{{ contact.username }}</p>
+      <div class="available" [ngClass]="{'online' : contact.status.online}"></div>
     </div>
   </div>
 </div>

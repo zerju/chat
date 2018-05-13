@@ -1,7 +1,9 @@
+import {IStatus} from './satus.model';
 export interface IContact {
   id: string;
-  name: string;
-  online: boolean;
+  username: string;
+  email?: string;
+  status: IStatus;
   image?: string;
   type?: number;
   participants?: IContact[];

@@ -1,13 +1,15 @@
-<div [formGroup]="form" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
-  <h3>Login</h3>
-  <div fxLayout="row">
-    <p>Username</p>
-    <input formControlName="username" placeholder="Username">
+<div class="login" fxLayoutAlign="center center">
+  <div class="login-form" [formGroup]="form" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
+    <h3>Login</h3>
+    <div fxLayout="row">
+      <p>Username</p>
+      <input formControlName="username" placeholder="Username">
+    </div>
+    <div fxLayout="row">
+      <p>Password</p>
+      <input formControlName="password" placeholder="Password" type="password">
+    </div>
+    <button [disabled]="!form.valid" (click)="login()">Login</button>
+    <a [routerLink]="'/auth/register'">Register</a>
   </div>
-  <div fxLayout="row">
-    <p>Password</p>
-    <input formControlName="password" placeholder="Password" type="password">
-  </div>
-  <button [disabled]="!form.valid" (click)="login()">Login</button>
-  <a [routerLink]="'/auth/register'">Register</a>
 </div>

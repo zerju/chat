@@ -1,6 +1,6 @@
 <div fxLayoutAlign="start center" class="participants" fxLayout="row">
   <img class="participant-pic" [src]="getImage()">
-  <h2 [matTooltip]="getParticipants()" class="participant-name">{{ selected.name }}</h2>
+  <h2 [matTooltip]="getParticipants()" class="participant-name">{{ selected.username }}</h2>
   <div class="group-buttons">
     <button *ngIf="selected.type === contactType.group" (click)="leaveChatGroup.next()">Leave Group</button>
     <button *ngIf="selected.type === contactType.group" (click)="addToGroup.next()">Manage Group Contacts</button>

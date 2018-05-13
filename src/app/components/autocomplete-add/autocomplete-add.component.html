@@ -1,7 +1,7 @@
 <div class="autocomplete">
   <div fxLayout="row" class="ac-input">
     <div #addedInput fxLayout="start center" class="all-added">
-      <div fxLayoutGap="3px" fxLayoutAlign="center center" fxLayout="row" class="added" *ngFor="let el of addedElements;let i = index">{{el.name}}
+      <div fxLayoutGap="3px" fxLayoutAlign="center center" fxLayout="row" class="added" *ngFor="let el of addedElements;let i = index">{{el.username}}
         <button fxLayoutAlign="center center" (click)="removeAddedByIndex(i)" class="remove">
           <mat-icon>close</mat-icon>
         </button>
@@ -10,6 +10,6 @@
     <input zerjuFocus #input (keydown.backspace)="removeAdded($event.srcElement.value)" (input)="onFilter($event.srcElement.value)">
   </div>
   <div [ngStyle]="{'left':left,'top':top}" *ngIf="active && filtered && filtered.length > 0" class="filteredList" fxLayout="column">
-    <button (click)="addElement(el)" *ngFor="let el of filtered">{{el.name}}</button>
+    <button (click)="addElement(el)" *ngFor="let el of filtered">{{el.username}}</button>
   </div>
 </div>
