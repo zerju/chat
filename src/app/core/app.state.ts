@@ -1,4 +1,6 @@
-import { AuthState } from './states/auth.state';
+import {AuthState, AuthStateModel} from './states/auth.state';
+import {ContactsState, ContactsStateModel} from './states/contacts.state';
 export interface AppState {
-  authState: AuthState;
+  authState: AuthStateModel;
+  contactsState: ContactsStateModel;
 }

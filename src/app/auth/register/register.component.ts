@@ -1,8 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { Title } from '@angular/platform-browser';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Title} from '@angular/platform-browser';
+import {Subscription} from 'rxjs';
+
+import {environment} from '../../../environments/environment';
+import {AuthService} from '../../core/services/auth.service';
 
 @Component({
   selector: 'zerju-register',
@@ -16,13 +18,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
   repeatTouched = false;
   formSub: Subscription;
 
-  constructor(private _title: Title) { }
+  constructor(private _title: Title, private _authService: AuthService) {}
 
   ngOnInit() {
     this._title.setTitle(environment.titlePrefix + 'Register');
     this.form = new FormGroup({
       'username': new FormControl(undefined, Validators.required),
-      'email': new FormControl(undefined, [Validators.required, Validators.email]),
+      'email':
+          new FormControl(undefined, [Validators.required, Validators.email]),
       'password': new FormControl(undefined, [Validators.required]),
       'repeatPassword': new FormControl(undefined, [Validators.required])
     });
@@ -36,6 +39,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+  register() {
+    const user = this.form.value;
+    delete user.repeatPassword;
+    this._authService.register(user);
   }
 
   ngOnDestroy() {

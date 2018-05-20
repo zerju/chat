@@ -1,7 +1,8 @@
-import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+
 import {IContact} from '../../core/models/contact.model';
-import {ContactVisibility} from '../../enums/contact-visibility.enum';
 import {ContactType} from '../../enums/contact-type.enum';
+import {ContactVisibility} from '../../enums/contact-visibility.enum';
 
 @Component({
   selector: 'zerju-contact-panel',
@@ -31,15 +32,16 @@ export class ContactPanelComponent implements OnInit {
   ngOnInit() {}
 
   showContacts(contactVisibility: number) {
+    console.log(this._contacts);
     this.visibility = contactVisibility;
     switch (contactVisibility) {
       case ContactVisibility.ONLINE:
         this.shownContacts =
-            this._contacts.filter((res) => res.status.online === true);
+            this._contacts.filter((res) => res.statuses.online);
         break;
       case ContactVisibility.OFFLINE:
         this.shownContacts =
-            this._contacts.filter((res) => res.status.online === false);
+            this._contacts.filter((res) => res.statuses.online);
         break;
       case ContactVisibility.GROUP:
         this.shownContacts =

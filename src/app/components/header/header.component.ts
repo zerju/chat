@@ -1,4 +1,8 @@
 import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Select} from '@ngxs/store';
+import {Observable} from 'rxjs';
+
+import {AuthState, AuthStateModel} from '../../core/states/auth.state';
 
 @Component({
   selector: 'zerju-header',
@@ -7,7 +11,9 @@ import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@a
 })
 export class HeaderComponent implements OnInit {
   accountImage = '../../../assets/profile/profile-pic.png';
-  showMenu = false;
+
+  @Select(AuthState) auth$: Observable<AuthStateModel>;
+
   @Output() logoutEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}

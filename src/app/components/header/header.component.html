@@ -1,10 +1,18 @@
 <div class="whole">
   <img src="../../../assets/chat-icon.svg">
   <input class="search-contacts" type="text" placeholder="Search contacts" />
-  <img (click)="showMenu = !showMenu" #handlerElement class="profile" [src]="accountImage">
+  <button class="notification-btn" #handlerElement1 mat-icon-button>
+    <mat-icon>notification_important</mat-icon>
+  </button>
+  <zerju-menu [menuHandlerElement]="handlerElement1">
+    <div class="menu">
+      <h4>Notifications</h4>
+    </div>
+  </zerju-menu>
+  <img #handlerElement class="profile" [src]="(auth$ | async).user?.image | image">
   <zerju-menu [menuHandlerElement]="handlerElement">
     <div class="menu" fxLayout="column">
-      <h3>My account name</h3>
+      <h3>{{(auth$ | async).user?.username}}</h3>
       <button (click)="logoutEvent.emit()">Logout</button>
     </div>
   </zerju-menu>

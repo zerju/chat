@@ -1,10 +1,9 @@
 import {IStatus} from './status.model';
-export interface IContact {
+export interface IUser {
   id: string;
   username: string;
   email?: string;
-  statuses: IStatus;
+  status: IStatus;
   image?: string;
   type?: number;
-  participants?: IContact[];
 }

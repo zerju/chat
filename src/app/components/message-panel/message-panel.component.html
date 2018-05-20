@@ -1,29 +1,36 @@
-<div fxLayoutAlign="start center" class="participants" fxLayout="row">
-  <img class="participant-pic" [src]="getImage()">
-  <h2 [matTooltip]="getParticipants()" class="participant-name">{{ selected.username }}</h2>
-  <div class="group-buttons">
-    <button *ngIf="selected.type === contactType.group" (click)="leaveChatGroup.next()">Leave Group</button>
-    <button *ngIf="selected.type === contactType.group" (click)="addToGroup.next()">Manage Group Contacts</button>
-  </div>
-</div>
-<div class="messages" fxLayout="column">
-  <div *ngFor="let message of messages;let i = index">
-    <div *ngIf="!myMessage(message)" class="images">
-      <img *ngIf="i>0 && myMessage(message) !== myMessage(messages[i - 1]);else imagewidthplaceholder" class="messages-pic" [src]="getImage(message)">
-      <img *ngIf="i === 0" class="messages-pic" [src]="getImage(message)">
+<ng-container *ngIf="selected; else empty">
+  <div fxLayoutAlign="start center" class="participants" fxLayout="row">
+    <img class="participant-pic" [src]="selected.image | image">
+    <h2 [matTooltip]="getParticipants()" class="participant-name">{{ selected.username }}</h2>
+    <div class="group-buttons">
+      <button *ngIf="selected.type === contactType.group" (click)="leaveChatGroup.next()">Leave Group</button>
+      <button *ngIf="selected.type === contactType.group" (click)="addToGroup.next()">Manage Group Contacts</button>
     </div>
-    <ng-template #imagewidthplaceholder>
-      <div *ngIf="i !== 0" class="image-width-placeholder">
-
+  </div>
+  <div *ngIf="messages" class="messages" fxLayout="column">
+    <div *ngFor="let message of messages;let i = index">
+      <div *ngIf="!myMessage(message)" class="images">
+        <img *ngIf="i>0 && myMessage(message) !== myMessage(messages[i - 1]);else imagewidthplaceholder" class="messages-pic" [src]="getImage(message)">
+        <img *ngIf="i === 0" class="messages-pic" [src]="getImage(message)">
       </div>
-    </ng-template>
-    <div [ngClass]="{'recieve': !myMessage(message), 'send': myMessage(message)}">
-      <p>{{message.value}}</p>
-    </div>
-  </div>
+      <ng-template #imagewidthplaceholder>
+        <div *ngIf="i !== 0" class="image-width-placeholder">
 
-</div>
-<div class="send-text">
-  <textarea #textArea (keydown.enter)="sendMessage();false" (input)="newMessage = $event.srcElement.value" placeholder="Say something..."></textarea>
-  <button (click)="sendMessage()">Send</button>
-</div>
+        </div>
+      </ng-template>
+      <div [ngClass]="{'recieve': !myMessage(message), 'send': myMessage(message)}">
+        <p>{{message.value}}</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="send-text">
+    <textarea #textArea (keydown.enter)="sendMessage();false" (input)="newMessage = $event.srcElement.value" placeholder="Say something..."></textarea>
+    <button (click)="sendMessage()">Send</button>
+  </div>
+</ng-container>
+<ng-template #empty>
+  <div>
+    <h2>There is nothing here :(</h2>
+  </div>
+</ng-template>

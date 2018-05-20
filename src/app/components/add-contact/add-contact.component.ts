@@ -1,4 +1,5 @@
-import {Component, OnInit, EventEmitter, Output, Input} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+
 import {IContact} from '../../core/models/contact.model';
 
 @Component({
@@ -11,8 +12,7 @@ export class AddContactComponent implements OnInit {
   searched = false;
   isClickedOnce: false;
 
-  @Input()
-  foundContacts: IContact[];
+  @Input() foundContacts: any;
 
   @Output() findContactEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output()
@@ -28,8 +28,8 @@ export class AddContactComponent implements OnInit {
     }
   }
   addContact(contact: IContact) {
-    const index = this.foundContacts.indexOf(contact);
-    this.foundContacts.splice(index, 1);
+    // const index = this.foundContacts.indexOf(contact);
+    // this.foundContacts.splice(index, 1);
     this.addContactEvent.next(contact);
   }
 }

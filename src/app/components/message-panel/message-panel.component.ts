@@ -13,7 +13,7 @@ export class MessagePanelComponent implements OnInit {
   me: IContact = {
     id: '1',
     username: 'Jure Žerak',
-    status: {online: true, banned: false},
+    statuses: {online: true, banned: false},
     type: 0
   };
   contactType = ContactType;
@@ -60,9 +60,9 @@ export class MessagePanelComponent implements OnInit {
     console.log(event);
   }
   getParticipants() {
-    if (this.selected.type === ContactType.single) {
-      return this.selected.username;
-    }
-    return this.selected.participants.map((res) => res.username).join(', ');
+    // if (this.selected.type === ContactType.single) {
+    return this.selected.username;
+    // }
+    // return this.selected.participants.map((res) => res.username).join(', ');
   }
 }

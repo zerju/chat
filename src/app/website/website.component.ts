@@ -1,11 +1,16 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {Title} from '@angular/platform-browser';
+import {Select} from '@ngxs/store';
+import {Observable} from 'rxjs';
 
 import {environment} from '../../environments/environment';
 import {IContact} from '../core/models/contact.model';
 import {IGroup} from '../core/models/group.model';
 import {IMessage} from '../core/models/message.model';
+import {ContactsService} from '../core/services/contacts.service';
+import {UserService} from '../core/services/user.service';
+import {ContactsState, ContactsStateModel} from '../core/states/contacts.state';
 import {ContactType} from '../enums/contact-type.enum';
 
 @Component({
@@ -19,31 +24,31 @@ export class WebsiteComponent implements OnInit {
     {
       id: '1',
       username: 'Jure Žerak',
-      status: {online: true, banned: false},
+      statuses: {online: true, banned: false},
       type: 0
     },
     {
       id: '2',
       username: 'Test Testing',
-      status: {online: true, banned: false},
+      statuses: {online: true, banned: false},
       type: 0
     },
     {
       id: '3',
       username: 'Test Testing2',
-      status: {online: true, banned: false},
+      statuses: {online: true, banned: false},
       type: 0
     },
     {
       id: '4',
       username: 'Test Testing3',
-      status: {online: true, banned: false},
+      statuses: {online: true, banned: false},
       type: 0
     },
     {
       id: '5',
       username: 'Test Testing4',
-      status: {online: true, banned: false},
+      statuses: {online: true, banned: false},
       type: 0
     }
   ];
@@ -51,50 +56,49 @@ export class WebsiteComponent implements OnInit {
     {
       id: '1',
       username: 'Jure Žerak',
-      status: {online: true, banned: false},
+      statuses: {online: true, banned: false},
       type: 0
     },
     {
       id: '2',
       username: 'Test Testing',
-      status: {online: true, banned: false},
+      statuses: {online: true, banned: false},
       type: 0
     },
     {
       id: '3',
       username: 'Test Testing2',
-      status: {online: true, banned: false},
+      statuses: {online: true, banned: false},
       type: 0
     },
     {
       id: '4',
       username: 'Test Testing3',
-      status: {online: true, banned: false},
+      statuses: {online: true, banned: false},
       type: 0
     },
     {
       id: '5',
       username: 'Test Testing4',
-      status: {online: true, banned: false},
+      statuses: {online: true, banned: false},
       type: 0
     },
     {
       id: '6',
       username: 'Anonymous',
-      status: {online: true, banned: false},
+      statuses: {online: true, banned: false},
       image: '../../../assets/profile/anon.jpg',
       type: 0
     },
     {
       id: '7',
       username: 'Group Chat',
-      status: {online: true, banned: false},
+      statuses: {online: true, banned: false},
       image: '../../../assets/profile/anon.jpg',
       type: 1,
       participants: this.participants
     }
   ];
-  foundContacts: IContact[] = [];
   me = this.contacts[0];
   messages: IMessage[] = [
     {sentBy: this.contacts[1], value: 'Hello there'},
@@ -109,14 +113,21 @@ export class WebsiteComponent implements OnInit {
   private _dialogRef$: MatDialogRef<any>;
   selectedContact: IContact;
 
+  @Select(ContactsState) foundContacts$: Observable<ContactsStateModel>;
+
   @ViewChild('createGroup') private _createGroup: TemplateRef<any>;
   @ViewChild('addToGroup') private _addToGroup: TemplateRef<any>;
   @ViewChild('addContact') private _addContact: TemplateRef<any>;
-  constructor(private _dialog: MatDialog, private _title: Title) {}
+  constructor(
+      private _dialog: MatDialog, private _title: Title,
+      private _contactsService: ContactsService,
+      private _userService: UserService) {}
 
   ngOnInit() {
     this._title.setTitle(environment.titlePrefix + 'Chat');
-    this.onContactSelect(this.contacts[0]);
+    //   this.onContactSelect(this.contacts[0]);
+    this._userService.getUserData();
+    this._contactsService.getContacts();
   }
 
   /*
@@ -146,7 +157,7 @@ export class WebsiteComponent implements OnInit {
         id: (this.contacts.length + 1).toString(),
         username: group.name,
         email: 'tralala@email.com',
-        status: {online: true, banned: false},
+        statuses: {online: true, banned: false},
         image: '../../../assets/profile/group_chat.jpg',
         type: 1,
         participants: group.contacts
@@ -171,11 +182,12 @@ export class WebsiteComponent implements OnInit {
     this._dialogRef$ = this._dialog.open(this._addContact);
   }
   onFindContact(contactName: string) {
-    this.foundContacts = [...this.contacts.filter(
-        (res) => this.addedContacts.indexOf(res) === -1)];
+    console.log('find', contactName);
+    this._contactsService.findContacts(contactName);
   }
   onAddContact(contact: IContact) {
     console.log('Contact added');
-    this.addedContacts.push(contact);
+    this._contactsService.addContact(contact.id);
+    // this.addedContacts.push(contact);
   }
 }

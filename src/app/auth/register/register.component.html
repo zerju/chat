@@ -19,7 +19,7 @@
     </div>
     <p class="required">* - required field</p>
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
-      <button [disabled]="(!form.valid || !passwordsMatch)">Register</button>
+      <button [disabled]="(!form.valid || !passwordsMatch)" (click)="register()">Register</button>
       <a [routerLink]=" '/auth/login' ">Login</a>
     </div>
     <p *ngIf="!passwordsMatch && repeatTouched">They don't match</p>

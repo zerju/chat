@@ -11,12 +11,12 @@
       <mat-icon>group_add</mat-icon>
     </button>
   </div>
-  <div fxLayout="column">
-    <div (click)="onSelectEvent.next(contact)" *ngFor="let contact of shownContacts" [ngClass]="{'selected' : selected.id === contact.id}"
+  <div *ngIf="shownContacts" fxLayout="column">
+    <div (click)="onSelectEvent.next(contact)" *ngFor="let contact of shownContacts" [ngClass]="{'selected' : selected && selected.id === contact.id}"
       fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="contact">
-      <img [src]="contact.image ? contact.image : '../../../assets/profile/profile-pic.png'" class="contact-pic">
+      <img [src]="contact.image | image" class="contact-pic">
       <p class="contact-name">{{ contact.username }}</p>
-      <div class="available" [ngClass]="{'online' : contact.status.online}"></div>
+      <div class="available" [ngClass]="{'online' : contact.statuses.online}"></div>
     </div>
   </div>
 </div>
