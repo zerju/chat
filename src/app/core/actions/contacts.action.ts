@@ -13,3 +13,7 @@ export class AddContactAction {
   static readonly type = registerActionType('[Contacts] Add');
   constructor(public contactid: string) {}
 }
+export class RespondToRequestAction {
+  static readonly type = registerActionType('[Contact] Respond Request');
+  constructor(public payload: {id: string, response: boolean}) {}
+}

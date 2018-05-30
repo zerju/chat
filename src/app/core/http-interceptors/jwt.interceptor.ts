@@ -1,4 +1,10 @@
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest
+} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Actions, ofActionSuccessful, Store} from '@ngxs/store';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
@@ -18,23 +24,28 @@ export class JWTInterceptor implements HttpInterceptor {
     return req.clone({setHeaders: {Authorization: token}});
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler):
-      Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<any>,
+            next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this._store.selectSnapshot<string>(
         (state: any) => state.auth.accessToken);
+    // const tokenExp = this._store.selectSnapshot<number>(
+    //     (state: any) => state.auth.token ? state.auth.token.exp : null);
+    // const date = new Date();
+    // const isExp = date.getTime() < tokenExp;
     if (token) {
-      return next.handle(this.addToken(req, token)).pipe(catchError(err => {
-        if (err instanceof HttpErrorResponse) {
-          switch ((<HttpErrorResponse>err).status) {
-            case 400:
-              return this.handle400Error(err);
-            case 401:
-              return this.handle401Error(req, next);
-          }
-        } else {
-          return throwError(err);
-        }
-      }));
+      return next.handle(this.addToken(req, token))
+          .pipe(catchError(err => {
+            if (err instanceof HttpErrorResponse) {
+              switch ((<HttpErrorResponse>err).status) {
+                case 400:
+                  return this.handle400Error(err);
+                case 401:
+                  return this.handle401Error(req, next);
+              }
+            } else {
+              return throwError(err);
+            }
+          }));
     } else {
       return next.handle(req);
     }

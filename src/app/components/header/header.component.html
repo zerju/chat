@@ -1,12 +1,13 @@
 <div class="whole">
   <img src="../../../assets/chat-icon.svg">
   <input class="search-contacts" type="text" placeholder="Search contacts" />
-  <button class="notification-btn" #handlerElement1 mat-icon-button>
+  <button class="notification-btn" #handlerElement1>
     <mat-icon>notification_important</mat-icon>
   </button>
-  <zerju-menu [menuHandlerElement]="handlerElement1">
-    <div class="menu">
-      <h4>Notifications</h4>
+  <zerju-menu class="notifications" [menuHandlerElement]="handlerElement1">
+    <p>Contact requests:</p>
+    <div class="menu" *ngFor="let request of (auth$ | async).user?.contactRequests">
+      <zerju-contact-request (respondRequest)="respondRequest.next($event)" *ngIf="!request.responded" [request]="request"></zerju-contact-request>
     </div>
   </zerju-menu>
   <img #handlerElement class="profile" [src]="(auth$ | async).user?.image | image">

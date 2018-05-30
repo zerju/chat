@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {AuthService} from '../../core/services/auth.service';
 
 @Component({
@@ -7,11 +7,12 @@ import {AuthService} from '../../core/services/auth.service';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
+  @Output()
+  respondRequest: EventEmitter<{id: string, response: boolean}> =
+      new EventEmitter<{id: string, response: boolean}>();
   constructor(private _authService: AuthService) {}
 
   ngOnInit() {}
 
-  onLogout() {
-    this._authService.logout();
-  }
+  onLogout() { this._authService.logout(); }
 }

@@ -1,9 +1,9 @@
 <div class="contacts">
   <div fxLayoutAlign="start center" class="buttons">
-    <button matTooltip="Online" [ngClass]="{'active': visibility === 0}" (click)="showContacts(0)" class="tab-button">Online</button>
-    <button matTooltip="Offline" [ngClass]="{'active': visibility === 1}" (click)="showContacts(1)" class="tab-button">Offline</button>
-    <button matTooltip="Group" [ngClass]="{'active': visibility === 2}" (click)="showContacts(2)" class="tab-button">Group</button>
-    <button matTooltip="All" [ngClass]="{'active': visibility === 3}" (click)="showContacts(3)" class="tab-button">All</button>
+    <button matTooltip="Online" [ngClass]="{'active': visibility === 0}" (click)="showContacts(0)" class="tab-button my-button">Online</button>
+    <button matTooltip="Offline" [ngClass]="{'active': visibility === 1}" (click)="showContacts(1)" class="tab-button my-button">Offline</button>
+    <button matTooltip="Group" [ngClass]="{'active': visibility === 2}" (click)="showContacts(2)" class="tab-button my-button">Group</button>
+    <button matTooltip="All" [ngClass]="{'active': visibility === 3}" (click)="showContacts(3)" class="tab-button my-button">All</button>
     <button (click)="addContactEvent.next()" matTooltip="Add Friend" class="icon-button">
       <mat-icon>person_add</mat-icon>
     </button>

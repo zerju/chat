@@ -1,0 +1,12 @@
+<div class="request" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+  <img [src]="request.from.image | image">
+  <p [matTooltip]="request.from.username">{{ request.from.username }}</p>
+  <div>
+    <button (click)="respondRequest.next({id: request.from.id, response: false})" mat-icon-button>
+      <mat-icon>cancel</mat-icon>
+    </button>
+    <button (click)="respondRequest.next({id: request.from.id, response: true})" mat-icon-button>
+      <mat-icon>check_circle_outline</mat-icon>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+.request {
+    padding: 5px;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.12);
+    }
+    img {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+    }
+    p {
+        width: 100px;
+        max-width: 100px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        cursor: default;
+    }
+    button {
+        border: none;
+    }
+}

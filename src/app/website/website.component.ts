@@ -118,10 +118,9 @@ export class WebsiteComponent implements OnInit {
   @ViewChild('createGroup') private _createGroup: TemplateRef<any>;
   @ViewChild('addToGroup') private _addToGroup: TemplateRef<any>;
   @ViewChild('addContact') private _addContact: TemplateRef<any>;
-  constructor(
-      private _dialog: MatDialog, private _title: Title,
-      private _contactsService: ContactsService,
-      private _userService: UserService) {}
+  constructor(private _dialog: MatDialog, private _title: Title,
+              private _contactsService: ContactsService,
+              private _userService: UserService) {}
 
   ngOnInit() {
     this._title.setTitle(environment.titlePrefix + 'Chat');
@@ -148,9 +147,7 @@ export class WebsiteComponent implements OnInit {
   onNewMessage(message: string) {
     this.messages.push({sentBy: this.me, value: message});
   }
-  openCreateGroup() {
-    this._dialogRef$ = this._dialog.open(this._createGroup);
-  }
+  openCreateGroup() { this._dialogRef$ = this._dialog.open(this._createGroup); }
   onGroupCreate(group: IGroup) {
     if (group) {
       this.contacts.push({
@@ -166,12 +163,8 @@ export class WebsiteComponent implements OnInit {
     }
     this._dialogRef$.close();
   }
-  onLeaveChatGroup() {
-    console.log('Left chat group');
-  }
-  onAddToGroup() {
-    this._dialogRef$ = this._dialog.open(this._addToGroup);
-  }
+  onLeaveChatGroup() { console.log('Left chat group'); }
+  onAddToGroup() { this._dialogRef$ = this._dialog.open(this._addToGroup); }
   onAddContactToGroup(contacts: IContact[]) {
     if (contacts) {
       this.selectedContact.participants = contacts;
@@ -189,5 +182,8 @@ export class WebsiteComponent implements OnInit {
     console.log('Contact added');
     this._contactsService.addContact(contact.id);
     // this.addedContacts.push(contact);
+  }
+  respondAction(event: {id: string, response: boolean}) {
+    this._contactsService.respondContact(event);
   }
 }

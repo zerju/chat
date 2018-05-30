@@ -1,4 +1,4 @@
-<zerju-layout>
+<zerju-layout (respondRequest)="respondAction($event)">
   <article fxLayout="row" class="main">
     <zerju-contact-panel (addContactEvent)="openAddContactDialog()" (onCreateGroupEvent)="openCreateGroup()" [selected]="selectedContact"
       (onSelectEvent)="onContactSelect($event)" [contacts]="(foundContacts$ | async).friends" fxFlex="15" class="contacts"></zerju-contact-panel>

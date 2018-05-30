@@ -3,6 +3,12 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     display: flex;
     align-items: center;
+    .notifications {
+        p {
+            padding: 5px;
+            margin: 0;
+        }
+    }
     .notification-btn {
         position: relative;
         background-color: transparent;

@@ -1,7 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Store} from '@ngxs/store';
 
-import {AddContactAction, FindContactsAction, GetContactsAction} from '../actions/contacts.action';
+import {
+  AddContactAction,
+  FindContactsAction,
+  GetContactsAction,
+  RespondToRequestAction
+} from '../actions/contacts.action';
 import {IContact} from '../models/contact.model';
 import {IUser} from '../models/user.model';
 
@@ -9,13 +14,14 @@ import {IUser} from '../models/user.model';
 export class ContactsService {
   constructor(private _store: Store) {}
 
-  getContacts() {
-    this._store.dispatch(new GetContactsAction());
-  }
+  getContacts() { this._store.dispatch(new GetContactsAction()); }
   findContacts(search: string) {
     this._store.dispatch(new FindContactsAction(search));
   }
   addContact(contact: string) {
     this._store.dispatch(new AddContactAction(contact));
+  }
+  respondContact(event: {id: string, response: boolean}) {
+    this._store.dispatch(new RespondToRequestAction(event));
   }
 }

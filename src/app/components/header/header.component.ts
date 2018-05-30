@@ -1,4 +1,11 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 
@@ -15,6 +22,9 @@ export class HeaderComponent implements OnInit {
   @Select(AuthState) auth$: Observable<AuthStateModel>;
 
   @Output() logoutEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output()
+  respondRequest: EventEmitter<{id: string, response: boolean}> =
+      new EventEmitter<{id: string, response: boolean}>();
 
   constructor() {}
 
