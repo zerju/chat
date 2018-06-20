@@ -12,6 +12,8 @@ import {ContactsService} from '../core/services/contacts.service';
 import {UserService} from '../core/services/user.service';
 import {ContactsState, ContactsStateModel} from '../core/states/contacts.state';
 import {ContactType} from '../enums/contact-type.enum';
+import {MessagesService} from '../core/services/messages.service';
+import {ISendMessage} from '../core/models/send-message.model';
 
 @Component({
   selector: 'zerju-website',
@@ -120,13 +122,15 @@ export class WebsiteComponent implements OnInit {
   @ViewChild('addContact') private _addContact: TemplateRef<any>;
   constructor(private _dialog: MatDialog, private _title: Title,
               private _contactsService: ContactsService,
-              private _userService: UserService) {}
+              private _userService: UserService,
+              private _messagesService: MessagesService) {}
 
   ngOnInit() {
     this._title.setTitle(environment.titlePrefix + 'Chat');
     //   this.onContactSelect(this.contacts[0]);
     this._userService.getUserData();
     this._contactsService.getContacts();
+    this._messagesService.connectSocket();
   }
 
   /*
@@ -145,7 +149,9 @@ export class WebsiteComponent implements OnInit {
     this.messages[1].value = 'Yo ' + contact.username;
   }
   onNewMessage(message: string) {
-    this.messages.push({sentBy: this.me, value: message});
+    const sendMessage:
+        ISendMessage = {conversationId: '1', message: message, token: 'trlala'};
+    this._messagesService.sendMessage(sendMessage);
   }
   openCreateGroup() { this._dialogRef$ = this._dialog.open(this._createGroup); }
   onGroupCreate(group: IGroup) {

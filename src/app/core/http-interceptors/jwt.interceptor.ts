@@ -74,8 +74,9 @@ export class JWTInterceptor implements HttpInterceptor {
 
 
   handle400Error(error) {
+    console.log(error);
     if (error && error.status === 400 && error.error &&
-        error.error.error === 'invalid_grant') {
+        error.error.error[0] === 'invalid_grant') {
       return this._store.dispatch(new LogoutAction());
     }
     return throwError(error);

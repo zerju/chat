@@ -6,7 +6,12 @@ import {throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 
 import {environment} from '../../../environments/environment';
-import {LoginAction, LogoutAction, RefreshTokenAction, RegisterAction} from '../actions/auth.action';
+import {
+  LoginAction,
+  LogoutAction,
+  RefreshTokenAction,
+  RegisterAction
+} from '../actions/auth.action';
 import {GetUserDataAction} from '../actions/user.action';
 import {IToken} from '../models/token.model';
 
@@ -32,55 +37,47 @@ export interface AuthStateModel {
   @Action(LoginAction)
   loginUser(ctx: StateContext<AuthStateModel>, action: LoginAction) {
     return this.http.post(baseURL + 'login', action.login)
-        .pipe(
-            tap((res: any) => {
-              const state = ctx.getState();
-              ctx.setState({
-                ...state,
-                loggedIn: true,
-                user: res.user,
-                token: jwtDecode(res.token),
-                accessToken: res.token,
-                refreshToken: res.refreshToken,
-                refreshTokenExp: res.refreshTokenExp
-              });
-              this._router.navigate([environment.rootRoute]);
-            }),
-            catchError((err) => {
-              return throwError(err);
-            }));
+        .pipe(tap((res: any) => {
+                const state = ctx.getState();
+                ctx.setState({
+                  ...state,
+                  loggedIn: true,
+                  user: res.user,
+                  token: jwtDecode(res.token),
+                  accessToken: res.token,
+                  refreshToken: res.refreshToken,
+                  refreshTokenExp: res.refreshTokenExp
+                });
+                this._router.navigate([environment.rootRoute]);
+              }),
+              catchError((err) => throwError(err)));
   }
 
   @Action(RegisterAction)
   registerUser(ctx: StateContext<AuthStateModel>, action: RegisterAction) {
     return this.http.post(baseURL + 'register', action.register)
-        .pipe(
-            tap(() => {
-              this._router.navigate([environment.loginRoute]);
-            }),
-            catchError((err) => {
-              return throwError(err);
-            }));
+        .pipe(tap(() => { this._router.navigate([environment.loginRoute]); }),
+              catchError((err) => throwError(err)));
   }
   @Action(RefreshTokenAction)
   refreshToken(ctx: StateContext<AuthStateModel>, action: RefreshTokenAction) {
     const state = ctx.getState();
-    return this.http
-        .post(baseURL + 'refreshtoken', {refreshToken: state.refreshToken})
-        .pipe(
-            tap((res) => {
-              ctx.setState({...state, accessToken: (<any>res).newToken});
-            }),
-            catchError((err) => {
-              this._router.navigate([environment.loginRoute]);
-              return throwError(err);
-            }));
+    return this.http.post(baseURL + 'refreshtoken',
+                          {refreshToken: state.refreshToken})
+        .pipe(tap((res) => {
+                ctx.setState({...state, accessToken: (<any>res).newToken});
+              }),
+              catchError((err) => {
+                this._router.navigate([environment.loginRoute]);
+                return throwError(err);
+              }));
   }
 
   @Action(LogoutAction)
   logoutUser(ctx: StateContext<AuthStateModel>, action: LogoutAction) {
     const state = ctx.getState();
     ctx.setState({});
+    this._router.navigate(['/login']);
   }
 
   @Action(GetUserDataAction)
@@ -88,9 +85,7 @@ export interface AuthStateModel {
     const state = ctx.getState();
     return this.http.get(environment.apiURL + '/user')
         .pipe(
-            tap((res) => {
-              ctx.setState({...state, user: (<any>res).user});
-            }),
+            tap((res) => { ctx.setState({...state, user: (<any>res).user}); }),
             catchError((err) => throwError(err)));
   }
 }
