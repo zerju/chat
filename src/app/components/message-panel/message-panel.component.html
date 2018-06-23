@@ -19,13 +19,13 @@
         </div>
       </ng-template>
       <div [ngClass]="{'recieve': !myMessage(message), 'send': myMessage(message)}">
-        <p>{{message.value}}</p>
+        <p>{{message.content}}</p>
       </div>
     </div>
 
   </div>
   <div class="send-text">
-    <textarea #textArea (keydown.enter)="sendMessage();false" (input)="newMessage = $event.srcElement.value" placeholder="Say something..."></textarea>
+    <textarea #textArea (keydown.enter)="sendMessage();false" (input)="newMessage = $event.target.value" placeholder="Say something..."></textarea>
     <button (click)="sendMessage()">Send</button>
   </div>
 </ng-container>

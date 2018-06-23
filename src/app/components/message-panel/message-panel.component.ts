@@ -20,7 +20,9 @@ export class MessagePanelComponent implements OnInit {
   @Input() messages: IMessage[];
   @Input() selected: IContact;
 
-  @Output() newMessageEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output()
+  newMessageEvent =
+      new EventEmitter<{participants: string[], message: string}>();
   @Output() leaveChatGroup: EventEmitter<void> = new EventEmitter<void>();
   @Output() addToGroup: EventEmitter<void> = new EventEmitter<void>();
 
@@ -35,22 +37,26 @@ export class MessagePanelComponent implements OnInit {
     if (!message && this.selected.image) {
       return this.selected.image;
     }
-    if (message && message.sentBy.image) {
-      return message.sentBy.image;
+    if (message && message.sender.image) {
+      return message.sender.image;
     }
     return '../../../assets/profile/profile-pic.png';
   }
 
   sendMessage() {
     if (this.newMessage && this.newMessage.length > 0) {
-      this.newMessageEvent.next(this.newMessage);
+      const participants = [];
+      console.log(this.selected);
+      participants.push(this.selected.id);
+      this.newMessageEvent.next(
+          {participants: participants, message: this.newMessage});
       this.newMessage = '';
       this.textArea.nativeElement.value = '';
       this.textArea.nativeElement.focus();
     }
   }
   myMessage(message: IMessage) {
-    if (message.sentBy.id === this.me.id) {
+    if (message.sender.id === this.me.id) {
       return true;
     } else {
       return false;

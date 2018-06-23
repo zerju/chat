@@ -1,7 +1,7 @@
 <div>
   <h3>Add a contact</h3>
   <div fxLayoutGap="10px" fxLayout="row">
-    <input (input)="input = $event.srcElement.value" placeholder="Contact name">
+    <input (input)="input = $event.target.value" placeholder="Contact name">
     <button (click)="findContacts()">Find</button>
   </div>
   <div *ngIf="foundContacts.foundContacts && foundContacts.foundContacts.length > 0 && searched;else notFound" fxLayouAlign="center center">

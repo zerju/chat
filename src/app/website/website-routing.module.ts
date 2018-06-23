@@ -4,11 +4,15 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {WebsiteComponent} from './website.component';
 
-const routes: Routes = [{component: WebsiteComponent, path: ''}];
+const routes: Routes = [
+  {path: '', pathMatch: 'full',component: WebsiteComponent},
+  {path: 'c/:id', component: WebsiteComponent}
+];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
   declarations: []
 })
-export class WebsiteRoutingModule {}
+export class WebsiteRoutingModule {
+}

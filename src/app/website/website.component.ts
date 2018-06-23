@@ -1,6 +1,7 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {Title} from '@angular/platform-browser';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Select} from '@ngxs/store';
 import {Observable} from 'rxjs';
 
@@ -8,12 +9,12 @@ import {environment} from '../../environments/environment';
 import {IContact} from '../core/models/contact.model';
 import {IGroup} from '../core/models/group.model';
 import {IMessage} from '../core/models/message.model';
+import {ISendMessage} from '../core/models/send-message.model';
 import {ContactsService} from '../core/services/contacts.service';
+import {MessagesService} from '../core/services/messages.service';
 import {UserService} from '../core/services/user.service';
 import {ContactsState, ContactsStateModel} from '../core/states/contacts.state';
 import {ContactType} from '../enums/contact-type.enum';
-import {MessagesService} from '../core/services/messages.service';
-import {ISendMessage} from '../core/models/send-message.model';
 
 @Component({
   selector: 'zerju-website',
@@ -102,15 +103,16 @@ export class WebsiteComponent implements OnInit {
     }
   ];
   me = this.contacts[0];
-  messages: IMessage[] = [
-    {sentBy: this.contacts[1], value: 'Hello there'},
-    {sentBy: this.contacts[0], value: 'yo!'},
-    {sentBy: this.contacts[0], value: 'How is it going?'},
-    {sentBy: this.contacts[1], value: 'Very good thank you, and you?'},
-    {sentBy: this.contacts[1], value: 'How are you doing?'},
-    {sentBy: this.contacts[0], value: 'I am fine'},
-    {sentBy: this.contacts[1], value: 'Good to hear'}
-  ];
+  messages: IMessage[] = [];
+  // messages: IMessage[] = [
+  //   {sender: this.contacts[1], value: 'Hello there'},
+  //   {sender: this.contacts[0], value: 'yo!'},
+  //   {sender: this.contacts[0], value: 'How is it going?'},
+  //   {sender: this.contacts[1], value: 'Very good thank you, and you?'},
+  //   {sender: this.contacts[1], value: 'How are you doing?'},
+  //   {sender: this.contacts[0], value: 'I am fine'},
+  //   {sender: this.contacts[1], value: 'Good to hear'}
+  // ];
   addedContacts: IContact[] = [];
   private _dialogRef$: MatDialogRef<any>;
   selectedContact: IContact;
@@ -120,10 +122,12 @@ export class WebsiteComponent implements OnInit {
   @ViewChild('createGroup') private _createGroup: TemplateRef<any>;
   @ViewChild('addToGroup') private _addToGroup: TemplateRef<any>;
   @ViewChild('addContact') private _addContact: TemplateRef<any>;
-  constructor(private _dialog: MatDialog, private _title: Title,
-              private _contactsService: ContactsService,
-              private _userService: UserService,
-              private _messagesService: MessagesService) {}
+  constructor(
+      private _dialog: MatDialog, private _title: Title,
+      private _contactsService: ContactsService,
+      private _userService: UserService,
+      private _messagesService: MessagesService, private _router: Router,
+      private _route: ActivatedRoute) {}
 
   ngOnInit() {
     this._title.setTitle(environment.titlePrefix + 'Chat');
@@ -131,29 +135,43 @@ export class WebsiteComponent implements OnInit {
     this._userService.getUserData();
     this._contactsService.getContacts();
     this._messagesService.connectSocket();
+
+    this._route.params.subscribe((params) => {
+      if (params.c) {
+        // if (contact.type === ContactType.group) {
+        //   // call API for GroupContact
+        // } else {
+        //   // call API for normal contact
+        // }
+        // this.selectedContact = contact;
+        // if (contact.participants) {
+        //   this.alreadyAdded = contact.participants;
+        // }
+        // this.messages[1].value = 'Yo ' + contact.username;
+      }
+    });
   }
 
   /*
   here I need to call API for messages
   */
   onContactSelect(contact: IContact) {
-    if (contact.type === ContactType.group) {
-      // call API for GroupContact
-    } else {
-      // call API for normal contact
-    }
-    this.selectedContact = contact;
-    if (contact.participants) {
-      this.alreadyAdded = contact.participants;
-    }
-    this.messages[1].value = 'Yo ' + contact.username;
+    this._router.navigate(['c', contact.id], {relativeTo: this._route});
   }
-  onNewMessage(message: string) {
-    const sendMessage:
-        ISendMessage = {conversationId: '1', message: message, token: 'trlala'};
-    this._messagesService.sendMessage(sendMessage);
+  onNewMessage(event: {participants: string[], message: string}) {
+    const messageLength = this.messages.length;
+    console.log(messageLength);
+    const sendMessage: ISendMessage = {
+      conversationId: '1',
+      message: event.message,
+      token: 'trlala'
+    };
+    this._messagesService.sendMessage(
+        event.participants, messageLength, sendMessage);
   }
-  openCreateGroup() { this._dialogRef$ = this._dialog.open(this._createGroup); }
+  openCreateGroup() {
+    this._dialogRef$ = this._dialog.open(this._createGroup);
+  }
   onGroupCreate(group: IGroup) {
     if (group) {
       this.contacts.push({
@@ -169,8 +187,12 @@ export class WebsiteComponent implements OnInit {
     }
     this._dialogRef$.close();
   }
-  onLeaveChatGroup() { console.log('Left chat group'); }
-  onAddToGroup() { this._dialogRef$ = this._dialog.open(this._addToGroup); }
+  onLeaveChatGroup() {
+    console.log('Left chat group');
+  }
+  onAddToGroup() {
+    this._dialogRef$ = this._dialog.open(this._addToGroup);
+  }
   onAddContactToGroup(contacts: IContact[]) {
     if (contacts) {
       this.selectedContact.participants = contacts;
