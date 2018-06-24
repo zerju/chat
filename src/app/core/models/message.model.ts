@@ -3,4 +3,5 @@ export interface IMessage {
   id?: string;
   sender: IContact;
   content: string;
+  sendDate: Date;
 }

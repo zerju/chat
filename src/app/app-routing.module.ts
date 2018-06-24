@@ -7,7 +7,6 @@ import {NoAuthGuard} from './core/guards/no-auth.guard';
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: '/chat'}, {
     path: 'chat',
-    pathMatch: 'full',
     loadChildren: './website/website.module#WebsiteModule',
     canLoad: [AuthGuard]
   },

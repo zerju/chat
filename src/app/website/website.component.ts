@@ -1,12 +1,14 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Select} from '@ngxs/store';
-import {Observable} from 'rxjs';
+import {Select, Store} from '@ngxs/store';
+import {Observable, ReplaySubject, Subscription} from 'rxjs';
+import {skip, takeUntil} from 'rxjs/operators';
 
 import {environment} from '../../environments/environment';
 import {IContact} from '../core/models/contact.model';
+import {IConversation} from '../core/models/conversation.model';
 import {IGroup} from '../core/models/group.model';
 import {IMessage} from '../core/models/message.model';
 import {ISendMessage} from '../core/models/send-message.model';
@@ -14,6 +16,7 @@ import {ContactsService} from '../core/services/contacts.service';
 import {MessagesService} from '../core/services/messages.service';
 import {UserService} from '../core/services/user.service';
 import {ContactsState, ContactsStateModel} from '../core/states/contacts.state';
+import {MessagesState, MessagesStateModel} from '../core/states/messages.state';
 import {ContactType} from '../enums/contact-type.enum';
 
 @Component({
@@ -21,102 +24,17 @@ import {ContactType} from '../enums/contact-type.enum';
   templateUrl: './website.component.html',
   styleUrls: ['./website.component.scss']
 })
-export class WebsiteComponent implements OnInit {
+export class WebsiteComponent implements OnInit, OnDestroy {
   alreadyAdded = [];
-  participants: IContact[] = [
-    {
-      id: '1',
-      username: 'Jure Žerak',
-      statuses: {online: true, banned: false},
-      type: 0
-    },
-    {
-      id: '2',
-      username: 'Test Testing',
-      statuses: {online: true, banned: false},
-      type: 0
-    },
-    {
-      id: '3',
-      username: 'Test Testing2',
-      statuses: {online: true, banned: false},
-      type: 0
-    },
-    {
-      id: '4',
-      username: 'Test Testing3',
-      statuses: {online: true, banned: false},
-      type: 0
-    },
-    {
-      id: '5',
-      username: 'Test Testing4',
-      statuses: {online: true, banned: false},
-      type: 0
-    }
-  ];
-  contacts: IContact[] = [
-    {
-      id: '1',
-      username: 'Jure Žerak',
-      statuses: {online: true, banned: false},
-      type: 0
-    },
-    {
-      id: '2',
-      username: 'Test Testing',
-      statuses: {online: true, banned: false},
-      type: 0
-    },
-    {
-      id: '3',
-      username: 'Test Testing2',
-      statuses: {online: true, banned: false},
-      type: 0
-    },
-    {
-      id: '4',
-      username: 'Test Testing3',
-      statuses: {online: true, banned: false},
-      type: 0
-    },
-    {
-      id: '5',
-      username: 'Test Testing4',
-      statuses: {online: true, banned: false},
-      type: 0
-    },
-    {
-      id: '6',
-      username: 'Anonymous',
-      statuses: {online: true, banned: false},
-      image: '../../../assets/profile/anon.jpg',
-      type: 0
-    },
-    {
-      id: '7',
-      username: 'Group Chat',
-      statuses: {online: true, banned: false},
-      image: '../../../assets/profile/anon.jpg',
-      type: 1,
-      participants: this.participants
-    }
-  ];
-  me = this.contacts[0];
-  messages: IMessage[] = [];
-  // messages: IMessage[] = [
-  //   {sender: this.contacts[1], value: 'Hello there'},
-  //   {sender: this.contacts[0], value: 'yo!'},
-  //   {sender: this.contacts[0], value: 'How is it going?'},
-  //   {sender: this.contacts[1], value: 'Very good thank you, and you?'},
-  //   {sender: this.contacts[1], value: 'How are you doing?'},
-  //   {sender: this.contacts[0], value: 'I am fine'},
-  //   {sender: this.contacts[1], value: 'Good to hear'}
-  // ];
+  me: IContact;
   addedContacts: IContact[] = [];
-  private _dialogRef$: MatDialogRef<any>;
   selectedContact: IContact;
+  conversationId: string;
 
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  private _dialogRef$: MatDialogRef<any>;
+
+  @Select(MessagesState) messages$: Observable<MessagesStateModel>;
   @Select(ContactsState) foundContacts$: Observable<ContactsStateModel>;
 
   @ViewChild('createGroup') private _createGroup: TemplateRef<any>;
@@ -127,7 +45,7 @@ export class WebsiteComponent implements OnInit {
       private _contactsService: ContactsService,
       private _userService: UserService,
       private _messagesService: MessagesService, private _router: Router,
-      private _route: ActivatedRoute) {}
+      private _route: ActivatedRoute, private _store: Store) {}
 
   ngOnInit() {
     this._title.setTitle(environment.titlePrefix + 'Chat');
@@ -135,55 +53,59 @@ export class WebsiteComponent implements OnInit {
     this._userService.getUserData();
     this._contactsService.getContacts();
     this._messagesService.connectSocket();
-
-    this._route.params.subscribe((params) => {
-      if (params.c) {
-        // if (contact.type === ContactType.group) {
-        //   // call API for GroupContact
-        // } else {
-        //   // call API for normal contact
+    this.me =
+        this._store.selectSnapshot<IContact>((state: any) => state.auth.user);
+    this.messages$.pipe(takeUntil(this.destroyed$), skip(1))
+        .subscribe((res) => {
+          if (res.conversation && res.conversation.id !== this.conversationId) {
+            this._router.navigate(['chat', 'c', res.conversation.id]);
+          }
+        });
+    this._route.params.pipe(takeUntil(this.destroyed$)).subscribe((params) => {
+      if (params.conversationId) {
+        this.conversationId = params.conversationId;
+        const contacts = this._store.selectSnapshot<IContact[]>(
+            (state: any) => state.contactsState.friends);
+        const conversation = this._store.selectSnapshot<IConversation>(
+            (state: any) => state.messagesState.conversation);
+        // if (conversation === undefined) {
+        //   this._messagesService.getConversationById(params.conversationId);
+        //   return;
         // }
-        // this.selectedContact = contact;
-        // if (contact.participants) {
-        //   this.alreadyAdded = contact.participants;
-        // }
-        // this.messages[1].value = 'Yo ' + contact.username;
+        const contactId =
+            conversation.participants.find((x) => x.id !== this.me.id).id;
+        this.selectedContact = contacts.find((x) => x.id === contactId);
+        this._messagesService.getMessages([contactId]);
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
+    // this._messagesService.removeLocalConversation();
   }
 
   /*
   here I need to call API for messages
   */
   onContactSelect(contact: IContact) {
-    this._router.navigate(['c', contact.id], {relativeTo: this._route});
+    this._messagesService.getConversationByContact([contact.id]);
   }
-  onNewMessage(event: {participants: string[], message: string}) {
-    const messageLength = this.messages.length;
-    console.log(messageLength);
+  onNewMessage(event: {participants: string[], message: string, size: number}) {
     const sendMessage: ISendMessage = {
-      conversationId: '1',
+      conversationId: this.conversationId,
       message: event.message,
-      token: 'trlala'
+      token: ''
     };
     this._messagesService.sendMessage(
-        event.participants, messageLength, sendMessage);
+        event.participants, event.size, sendMessage);
   }
   openCreateGroup() {
     this._dialogRef$ = this._dialog.open(this._createGroup);
   }
   onGroupCreate(group: IGroup) {
     if (group) {
-      this.contacts.push({
-        id: (this.contacts.length + 1).toString(),
-        username: group.name,
-        email: 'tralala@email.com',
-        statuses: {online: true, banned: false},
-        image: '../../../assets/profile/group_chat.jpg',
-        type: 1,
-        participants: group.contacts
-      });
-      this.contacts = [...this.contacts];
     }
     this._dialogRef$.close();
   }
@@ -203,11 +125,9 @@ export class WebsiteComponent implements OnInit {
     this._dialogRef$ = this._dialog.open(this._addContact);
   }
   onFindContact(contactName: string) {
-    console.log('find', contactName);
     this._contactsService.findContacts(contactName);
   }
   onAddContact(contact: IContact) {
-    console.log('Contact added');
     this._contactsService.addContact(contact.id);
     // this.addedContacts.push(contact);
   }

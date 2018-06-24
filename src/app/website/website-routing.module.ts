@@ -5,14 +5,10 @@ import {RouterModule, Routes} from '@angular/router';
 import {WebsiteComponent} from './website.component';
 
 const routes: Routes = [
-  {path: '', pathMatch: 'full',component: WebsiteComponent},
-  {path: 'c/:id', component: WebsiteComponent}
+  {path: '', pathMatch: 'full', component: WebsiteComponent},
+  {path: 'c/:conversationId', component: WebsiteComponent}
 ];
 
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-  declarations: []
-})
+@NgModule({imports: [RouterModule.forChild(routes)], exports: [RouterModule]})
 export class WebsiteRoutingModule {
 }

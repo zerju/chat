@@ -7,11 +7,11 @@
       <button *ngIf="selected.type === contactType.group" (click)="addToGroup.next()">Manage Group Contacts</button>
     </div>
   </div>
-  <div *ngIf="messages" class="messages" fxLayout="column">
+  <div #scrollBottom *ngIf="messages" class="messages" fxLayout="column">
     <div *ngFor="let message of messages;let i = index">
-      <div *ngIf="!myMessage(message)" class="images">
-        <img *ngIf="i>0 && myMessage(message) !== myMessage(messages[i - 1]);else imagewidthplaceholder" class="messages-pic" [src]="getImage(message)">
-        <img *ngIf="i === 0" class="messages-pic" [src]="getImage(message)">
+      <div *ngIf="!(message | myMessage: me)" class="images">
+        <img *ngIf="i>0 && myMessage(message) !== myMessage(messages[i - 1]);else imagewidthplaceholder" class="messages-pic" [src]="message.sender.image | image">
+        <img *ngIf="i === 0" class="messages-pic" [src]="message.sender.image | image">
       </div>
       <ng-template #imagewidthplaceholder>
         <div *ngIf="i !== 0" class="image-width-placeholder">
@@ -22,7 +22,6 @@
         <p>{{message.content}}</p>
       </div>
     </div>
-
   </div>
   <div class="send-text">
     <textarea #textArea (keydown.enter)="sendMessage();false" (input)="newMessage = $event.target.value" placeholder="Say something..."></textarea>

@@ -3,7 +3,7 @@
     <zerju-contact-panel (addContactEvent)="openAddContactDialog()" (onCreateGroupEvent)="openCreateGroup()" [selected]="selectedContact"
       (onSelectEvent)="onContactSelect($event)" [contacts]="(foundContacts$ | async).friends" fxFlex="15" class="contacts"></zerju-contact-panel>
     <zerju-message-panel (addToGroup)="onAddToGroup()" (leaveChatGroup)="onLeaveChatGroup()" (newMessageEvent)="onNewMessage($event)"
-      [selected]="selectedContact" [messages]="messages" fxFlex="85" class="messages"></zerju-message-panel>
+      [selected]="selectedContact" [me]="me" [messages]="(messages$ | async).messages" fxFlex="85" class="messages"></zerju-message-panel>
   </article>
 </zerju-layout>
 <ng-template #createGroup>

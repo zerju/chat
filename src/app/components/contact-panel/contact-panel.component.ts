@@ -32,7 +32,6 @@ export class ContactPanelComponent implements OnInit {
   ngOnInit() {}
 
   showContacts(contactVisibility: number) {
-    console.log(this._contacts);
     this.visibility = contactVisibility;
     switch (contactVisibility) {
       case ContactVisibility.ONLINE:

@@ -1,3 +1,8 @@
+.container {
+    max-height: 900px;
+    overflow: auto;
+}
+
 .participants {
     padding: 5px 24px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
