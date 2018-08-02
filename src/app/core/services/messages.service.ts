@@ -71,11 +71,12 @@ export class MessagesService {
   private onCreateConv(participantIds: string[], message: ISendMessage) {
     this.convSub =
         this.http
-            .post(API_URL + '/conversation', {participantIds: participantIds})
+            .post(API_URL + '/conversation-by-contact', {participantIds: participantIds})
             .pipe(
                 tap((res) => {
                   message.token = this._token;
-                  message.conversationId = (<any>res).conversation[0].id;
+                  console.log(res);
+                  message.conversationId = (<any>res).conversation.id;
                   this._socket.emit('message', message);
                 }),
                 catchError((err) => throwError(err)))
