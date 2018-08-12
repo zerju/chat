@@ -1,3 +1,7 @@
+.contacts {
+  min-width: 15vw;
+}
+
 .buttons {
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     width: 15vw;
@@ -64,11 +68,52 @@
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        position: absolute;
-        right: 10px;
+        margin-right: 10px;
+        margin-left: auto;
         background-color: #9E9E9E;
         &.online {
             background-color: #64DD17;
+        }
+    }
+}
+
+@media screen and (max-width: 1700px) and (min-width: 800px) {
+    .contacts {
+        display: flex;
+        flex-direction: row;
+    }
+    .buttons {
+        flex-direction: column !important;
+        border: none;
+        border-right: 1px solid rgba(0, 0, 0, 0.12);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        width: unset;
+        button {
+            border: none;
+            width: 100%;
+            &.tab-button {
+                border: none;
+            }
+        }
+    }
+    .contact-list {
+        width: 100%;
+        .contact {
+          .contact-name {
+           // display: none;
+          }
+        }
+    }
+}
+@media screen and (max-width: 1100px) and (min-width: 800px) {
+      .contact-list {
+        .contact {
+          .contact-name {
+           display: none;
+          }
+          .contact-pic {
+            margin: auto;
+          }
         }
     }
 }

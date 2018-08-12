@@ -11,8 +11,8 @@
       <mat-icon>group_add</mat-icon>
     </button>
   </div>
-  <div *ngIf="shownContacts" fxLayout="column">
-    <div (click)="onSelectEvent.next(contact)" *ngFor="let contact of shownContacts" [ngClass]="{'selected' : selected && selected.id === contact.id}"
+  <div class="contact-list" *ngIf="shownContacts" fxLayout="column">
+    <div [matTooltip]="contact.username" (click)="onSelectEvent.next(contact)" *ngFor="let contact of shownContacts" [ngClass]="{'selected' : selected && selected.id === contact.id}"
       fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" class="contact">
       <img [src]="contact.image | image" class="contact-pic">
       <p class="contact-name">{{ contact.username }}</p>
