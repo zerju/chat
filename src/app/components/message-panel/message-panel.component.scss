@@ -98,7 +98,15 @@
   button {
     position: fixed;
     right: 24px;
-    bottom: 7vh;
+    bottom: 8vh;
     width: 76px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .send-text {
+    button {
+      bottom: 3vh;
+    }
   }
 }

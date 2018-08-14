@@ -1,5 +1,11 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {AuthService} from '../../core/services/auth.service';
+import {Observable} from 'rxjs';
+import {Select} from '@ngxs/store';
+import {
+  PlatformStateModel,
+  PlatformState
+} from '../../core/states/platform.state';
 
 @Component({
   selector: 'zerju-layout',
@@ -7,6 +13,8 @@ import {AuthService} from '../../core/services/auth.service';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
+  @Select(PlatformState) platform$: Observable<PlatformStateModel>;
+
   @Output()
   respondRequest: EventEmitter<{id: string, response: boolean}> =
       new EventEmitter<{id: string, response: boolean}>();

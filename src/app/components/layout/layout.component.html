@@ -1,4 +1,4 @@
 <zerju-header class="header" (toggleNavbarEvent)="toggleNavbarEvent.next($event)" (respondRequest)="respondRequest.next($event)"
   (logoutEvent)="onLogout()"></zerju-header>
 <ng-content class="content" select="article"></ng-content>
-<zerju-footer class="footer"></zerju-footer>
+<zerju-footer *ngIf="(platform$ | async).desktop" class="footer"></zerju-footer>

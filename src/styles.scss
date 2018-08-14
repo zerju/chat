@@ -65,3 +65,9 @@ input {
 article {
   height: 87vh;
 }
+
+@media screen and (max-width: 800px) {
+  article {
+    height: 90vh;
+  }
+}
