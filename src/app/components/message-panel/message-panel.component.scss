@@ -1,99 +1,104 @@
+:host {
+  overflow: hidden;
+}
+
 .container {
-    max-height: 900px;
-    overflow: auto;
+  max-height: 900px;
+  overflow: auto;
 }
 
 .participants {
-    padding: 5px 24px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    width: 100%;
-    .participant-pic {
-        height: 60px;
-        width: 60px;
-        border-radius: 50%;
+  padding: 5px 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  width: 100%;
+  .participant-pic {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+  }
+  .participant-name {
+    padding: 0;
+    margin: 0;
+    margin-left: 50px;
+    cursor: default;
+  }
+  .group-buttons {
+    margin-right: 24px;
+    margin-left: auto;
+    button {
+      border: 1px solid rgba(0, 0, 0, 0.34);
     }
-    .participant-name {
-        padding: 0;
-        margin: 0;
-        margin-left: 50px;
-        cursor: default;
-    }
-    .group-buttons {
-        margin-right: 24px;
-        margin-left: auto;
-        button {
-            border: 1px solid rgba(0, 0, 0, 0.34);
-        }
-    }
+  }
 }
 
 .image-width-placeholder {
-    width: 30px;
-    height: 30px;
-    float: left;
+  width: 30px;
+  height: 30px;
+  float: left;
 }
 
 .messages {
-    position: relative;
-    padding: 5px 24px;
-    overflow-y: auto;
-    height: 85%;
-    .images {
-        width: 110vw;
-        .messages-pic {
-            height: 30px;
-            width: 30px;
-            border-radius: 50%;
-            max-width: 5%;
-            float: left;
-        }
+  position: relative;
+  padding: 5px 24px;
+  overflow-y: auto;
+  height: calc(100% - 4.1vh - 81px);
+  .images {
+    width: 110vw;
+    .messages-pic {
+      height: 30px;
+      width: 30px;
+      min-width: 30px;
+      border-radius: 50%;
+      max-width: 5%;
+      float: left;
     }
-    .recieve {
-        float: left;
-        margin-left: 24px;
-        padding-bottom: 12px;
-        p {
-            margin: 0;
-            background-color: #A1887F;
-            padding: 10px;
-            border-radius: 25px;
-        }
+  }
+  .recieve {
+    float: left;
+    margin-left: 24px;
+    padding-bottom: 12px;
+    p {
+      margin: 0;
+      background-color: #A1887F;
+      padding: 10px;
+      border-radius: 25px;
     }
-    .send {
-        float: right;
-        padding-bottom: 12px;
-        p {
-            margin: 0;
-            background-color: #FF8A65;
-            padding: 10px;
-            border-radius: 25px;
-        }
+  }
+  .send {
+    float: right;
+    padding-bottom: 12px;
+    p {
+      margin: 0;
+      background-color: #FF8A65;
+      padding: 10px;
+      border-radius: 25px;
     }
+  }
 }
 
 .send-text {
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
-    height: 5vh;
-    max-height: 5vh;
-    position: relative;
-    bottom: 0;
-    textarea {
-        width: calc(100% - 124px);
-        height: calc(100% - 29px);
-        padding: 15px;
-        padding-right: 0;
-        border: none;
-        outline: none;
-        font-size: 16px;
-        word-break: break-word;
-        overflow: auto;
-        resize: none;
-        position: absolute;
-    }
-    button {
-        position: fixed;
-        right: 24px;
-        bottom: 7vh;
-        width: 76px;
-    }
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  height: 5vh;
+  max-height: 5vh;
+  position: relative;
+  bottom: 0;
+  textarea {
+    width: calc(100% - 124px);
+    height: 100%;
+    padding: 0;
+    padding-left: 15px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    word-break: break-word;
+    overflow: auto;
+    resize: none;
+    position: absolute;
+  }
+  button {
+    position: fixed;
+    right: 24px;
+    bottom: 7vh;
+    width: 76px;
+  }
 }

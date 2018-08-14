@@ -38,7 +38,7 @@ const COMPONENTS: any[] = [
   AutocompleteAddComponent,
   AddToGroupComponent,
   MenuComponent,
-  ContactRequestComponent
+  ContactRequestComponent,
 ];
 
 @NgModule({

@@ -1,16 +1,22 @@
-<zerju-layout (respondRequest)="respondAction($event)">
-  <article fxLayout="row" class="main">
-    <zerju-contact-panel (addContactEvent)="openAddContactDialog()" (onCreateGroupEvent)="openCreateGroup()" [selected]="selectedContact"
-      (onSelectEvent)="onContactSelect($event)" [contacts]="(foundContacts$ | async).friends" fxFlex="15" class="contacts"></zerju-contact-panel>
-    <zerju-message-panel (addToGroup)="onAddToGroup()" (leaveChatGroup)="onLeaveChatGroup()" (newMessageEvent)="onNewMessage($event)"
-      [selected]="selectedContact" [me]="me" [messages]="(messages$ | async).messages" fxFlex="85" class="messages"></zerju-message-panel>
+<zerju-layout (toggleNavbarEvent)="toggleNavbar($event)" (respondRequest)="respondAction($event)">
+  <article fxLayout="row">
+    <mat-sidenav-container>
+      <mat-sidenav [ngClass]="{'mobile' : (platform$ | async).mobile}" [mode]="(platform$ | async).desktop ? 'side' : 'over'" [opened]="(platform$ | async).desktop || phoneContactsVisible">
+        <zerju-contact-panel (addContactEvent)="openAddContactDialog()" (onCreateGroupEvent)="openCreateGroup()" [selected]="selectedContact"
+          (onSelectEvent)="onContactSelect($event)" [contacts]="(foundContacts$ | async).friends" fxFlex="15" class="contacts"></zerju-contact-panel>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <zerju-message-panel (addToGroup)="onAddToGroup()" (leaveChatGroup)="onLeaveChatGroup()" (newMessageEvent)="onNewMessage($event)"
+          [selected]="selectedContact" [me]="me" [messages]="(messages$ | async).messages" fxFlex="85" class="messages"></zerju-message-panel>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
   </article>
 </zerju-layout>
 <ng-template #createGroup>
-  <zerju-create-group [contacts]="contacts" (onCreateEvent)="onGroupCreate($event)"></zerju-create-group>
+  <zerju-create-group (onCreateEvent)="onGroupCreate($event)"></zerju-create-group>
 </ng-template>
 <ng-template #addToGroup>
-  <zerju-add-to-group [addedElements]="alreadyAdded" [contacts]="contacts" (onElementAdd)="onAddContactToGroup($event)"></zerju-add-to-group>
+  <zerju-add-to-group [addedElements]="alreadyAdded" (onElementAdd)="onAddContactToGroup($event)"></zerju-add-to-group>
 </ng-template>
 <ng-template #addContact>
   <zerju-add-contact [foundContacts]="foundContacts$ | async" (addContactEvent)="onAddContact($event)" (findContactEvent)="onFindContact($event)"></zerju-add-contact>

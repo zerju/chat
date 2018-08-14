@@ -1,4 +1,10 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -18,34 +24,42 @@ import {UserService} from '../core/services/user.service';
 import {ContactsState, ContactsStateModel} from '../core/states/contacts.state';
 import {MessagesState, MessagesStateModel} from '../core/states/messages.state';
 import {ContactType} from '../enums/contact-type.enum';
+import {PlatformService} from '../core/services/platform.service';
+import {PlatformState, PlatformStateModel} from '../core/states/platform.state';
 
 @Component({
   selector: 'zerju-website',
   templateUrl: './website.component.html',
   styleUrls: ['./website.component.scss']
 })
-export class WebsiteComponent implements OnInit, OnDestroy {
+export class WebsiteComponent implements OnInit,
+    OnDestroy {
   alreadyAdded = [];
   me: IContact;
   addedContacts: IContact[] = [];
   selectedContact: IContact;
   conversationId: string;
+  phoneContactsVisible = false;
 
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   private _dialogRef$: MatDialogRef<any>;
 
   @Select(MessagesState) messages$: Observable<MessagesStateModel>;
   @Select(ContactsState) foundContacts$: Observable<ContactsStateModel>;
+  @Select(PlatformState) platform$: Observable<PlatformStateModel>;
 
   @ViewChild('createGroup') private _createGroup: TemplateRef<any>;
   @ViewChild('addToGroup') private _addToGroup: TemplateRef<any>;
   @ViewChild('addContact') private _addContact: TemplateRef<any>;
-  constructor(
-      private _dialog: MatDialog, private _title: Title,
-      private _contactsService: ContactsService,
-      private _userService: UserService,
-      private _messagesService: MessagesService, private _router: Router,
-      private _route: ActivatedRoute, private _store: Store) {}
+  constructor(private _dialog: MatDialog, private _title: Title,
+              private _contactsService: ContactsService,
+              private _userService: UserService,
+              private _messagesService: MessagesService,
+              private _router: Router, private _route: ActivatedRoute,
+              private _store: Store,
+              private _platformService: PlatformService) {
+    this._platformService.getPlatform();
+  }
 
   ngOnInit() {
     this._title.setTitle(environment.titlePrefix + 'Chat');
@@ -61,23 +75,24 @@ export class WebsiteComponent implements OnInit, OnDestroy {
             this._router.navigate(['chat', 'c', res.conversation.id]);
           }
         });
-    this._route.params.pipe(takeUntil(this.destroyed$)).subscribe((params) => {
-      if (params.conversationId) {
-        this.conversationId = params.conversationId;
-        const contacts = this._store.selectSnapshot<IContact[]>(
-            (state: any) => state.contactsState.friends);
-        const conversation = this._store.selectSnapshot<IConversation>(
-            (state: any) => state.messagesState.conversation);
-        // if (conversation === undefined) {
-        //   this._messagesService.getConversationById(params.conversationId);
-        //   return;
-        // }
-        const contactId =
-            conversation.participants.find((x) => x.id !== this.me.id).id;
-        this.selectedContact = contacts.find((x) => x.id === contactId);
-        this._messagesService.getMessages([contactId]);
-      }
-    });
+    this._route.params.pipe(takeUntil(this.destroyed$))
+        .subscribe((params) => {
+          if (params.conversationId) {
+            this.conversationId = params.conversationId;
+            const contacts = this._store.selectSnapshot<IContact[]>(
+                (state: any) => state.contactsState.friends);
+            const conversation = this._store.selectSnapshot<IConversation>(
+                (state: any) => state.messagesState.conversation);
+            // if (conversation === undefined) {
+            //   this._messagesService.getConversationById(params.conversationId);
+            //   return;
+            // }
+            const contactId =
+                conversation.participants.find((x) => x.id !== this.me.id).id;
+            this.selectedContact = contacts.find((x) => x.id === contactId);
+            this._messagesService.getMessages([contactId]);
+          }
+        });
   }
 
   ngOnDestroy() {
@@ -98,23 +113,17 @@ export class WebsiteComponent implements OnInit, OnDestroy {
       message: event.message,
       token: ''
     };
-    this._messagesService.sendMessage(
-        event.participants, event.size, sendMessage);
+    this._messagesService.sendMessage(event.participants, event.size,
+                                      sendMessage);
   }
-  openCreateGroup() {
-    this._dialogRef$ = this._dialog.open(this._createGroup);
-  }
+  openCreateGroup() { this._dialogRef$ = this._dialog.open(this._createGroup); }
   onGroupCreate(group: IGroup) {
     if (group) {
     }
     this._dialogRef$.close();
   }
-  onLeaveChatGroup() {
-    console.log('Left chat group');
-  }
-  onAddToGroup() {
-    this._dialogRef$ = this._dialog.open(this._addToGroup);
-  }
+  onLeaveChatGroup() { console.log('Left chat group'); }
+  onAddToGroup() { this._dialogRef$ = this._dialog.open(this._addToGroup); }
   onAddContactToGroup(contacts: IContact[]) {
     if (contacts) {
       this.selectedContact.participants = contacts;
@@ -134,4 +143,6 @@ export class WebsiteComponent implements OnInit, OnDestroy {
   respondAction(event: {id: string, response: boolean}) {
     this._contactsService.respondContact(event);
   }
+
+  toggleNavbar(open: boolean) { this.phoneContactsVisible = open; }
 }

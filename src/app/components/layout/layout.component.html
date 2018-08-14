@@ -1,3 +1,4 @@
-<zerju-header (respondRequest)="respondRequest.next($event)" (logoutEvent)="onLogout()"></zerju-header>
-<ng-content select="article"></ng-content>
-<zerju-footer></zerju-footer>
+<zerju-header class="header" (toggleNavbarEvent)="toggleNavbarEvent.next($event)" (respondRequest)="respondRequest.next($event)"
+  (logoutEvent)="onLogout()"></zerju-header>
+<ng-content class="content" select="article"></ng-content>
+<zerju-footer class="footer"></zerju-footer>

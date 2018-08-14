@@ -1,29 +1,38 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 
 import {IContact} from '../../core/models/contact.model';
 import {IMessage} from '../../core/models/message.model';
 import {ContactType} from '../../enums/contact-type.enum';
+import {MessagesService} from '../../core/services/messages.service';
+import {OnDestroy} from '@angular/core';
+
+const ASSETS = '../../../assets/';
 
 @Component({
   selector: 'zerju-message-panel',
   templateUrl: './message-panel.component.html',
   styleUrls: ['./message-panel.component.scss']
 })
-export class MessagePanelComponent implements OnInit {
+export class MessagePanelComponent implements OnInit,
+    OnDestroy {
   contactType = ContactType;
   private _messages: IMessage[];
   @Input()
   set messages(m: IMessage[]) {
     if (m) {
       this._messages = m;
-      setTimeout(() => {
-        this.scrollToBottom();
-      }, 100);
+      setTimeout(() => { this.scrollToBottom(); }, 100);
     }
   }
-  get messages(): IMessage[] {
-    return this._messages;
-  }
+  get messages(): IMessage[] { return this._messages; }
   @Input() selected: IContact;
   @Input() me: IContact;
 
@@ -37,11 +46,12 @@ export class MessagePanelComponent implements OnInit {
   @ViewChild('scrollBottom') private myScrollContainer: ElementRef;
 
   newMessage: string;
-  constructor() {}
+  constructor(private _messagesService: MessagesService) {}
 
-  ngOnInit() {
-    this.scrollToBottom();
-  }
+  ngOnInit() { this.scrollToBottom(); }
+
+  ngOnDestroy() {}
+
   scrollToBottom() {
     if (this.myScrollContainer) {
       try {
@@ -60,7 +70,7 @@ export class MessagePanelComponent implements OnInit {
     if (message && message.sender.image) {
       return message.sender.image;
     }
-    return '../../../assets/profile/profile-pic.png';
+    return ASSETS + 'profile/profile-pic.png';
   }
 
   sendMessage() {
@@ -84,9 +94,7 @@ export class MessagePanelComponent implements OnInit {
       return false;
     }
   }
-  checkEvent(event: any) {
-    console.log(event);
-  }
+  checkEvent(event: any) { console.log(event); }
   getParticipants() {
     // if (this.selected.type === ContactType.single) {
     return this.selected.username;

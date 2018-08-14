@@ -6,8 +6,15 @@ import {catchError, tap} from 'rxjs/operators';
 import * as io from 'socket.io-client';
 
 import {environment} from '../../../environments/environment';
-import {AddMessageAction, GetConversationByContactAction, GetConversationByIdAction} from '../actions/messages.action';
-import {GetMessagesAction, RemoveLocalConversationAction} from '../actions/messages.action';
+import {
+  AddMessageAction,
+  GetConversationByContactAction,
+  GetConversationByIdAction
+} from '../actions/messages.action';
+import {
+  GetMessagesAction,
+  RemoveLocalConversationAction
+} from '../actions/messages.action';
 import {IContact} from '../models/contact.model';
 import {IMessage} from '../models/message.model';
 import {ISendMessage} from '../models/send-message.model';
@@ -31,6 +38,7 @@ export class MessagesService {
       this._store.dispatch(new AddMessageAction(message));
     });
   }
+  disconnectSocket() { this._socket.close(); }
   sendMessage(ids: string[], messagesNumber: number, message: ISendMessage) {
     const me =
         this._store.selectSnapshot<IContact>((state: any) => state.auth.user);
@@ -48,10 +56,9 @@ export class MessagesService {
     }
   }
   onMessage(): Observable<any> {
-    return new Observable<any>(
-        observer => {
+    return new Observable<any>(observer => {
 
-        });
+                               });
   }
 
   getMessages(contactIds: string[]) {
@@ -69,19 +76,16 @@ export class MessagesService {
   }
 
   private onCreateConv(participantIds: string[], message: ISendMessage) {
-    this.convSub =
-        this.http
-            .post(API_URL + '/conversation-by-contact', {participantIds: participantIds})
-            .pipe(
-                tap((res) => {
-                  message.token = this._token;
-                  console.log(res);
-                  message.conversationId = (<any>res).conversation.id;
-                  this._socket.emit('message', message);
-                }),
-                catchError((err) => throwError(err)))
-            .subscribe((res) => {
-              this.convSub.unsubscribe();
-            });
+    this.convSub = this.http.post(API_URL + '/conversation-by-contact',
+                                  {participantIds: participantIds})
+                       .pipe(tap((res) => {
+                               message.token = this._token;
+                               console.log(res);
+                               message.conversationId =
+                                   (<any>res).conversation.id;
+                               this._socket.emit('message', message);
+                             }),
+                             catchError((err) => throwError(err)))
+                       .subscribe((res) => { this.convSub.unsubscribe(); });
   }
 }

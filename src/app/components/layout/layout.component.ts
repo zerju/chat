@@ -10,6 +10,7 @@ export class LayoutComponent implements OnInit {
   @Output()
   respondRequest: EventEmitter<{id: string, response: boolean}> =
       new EventEmitter<{id: string, response: boolean}>();
+  @Output() toggleNavbarEvent = new EventEmitter<boolean>();
   constructor(private _authService: AuthService) {}
 
   ngOnInit() {}

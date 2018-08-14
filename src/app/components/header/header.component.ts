@@ -18,6 +18,7 @@ import {AuthState, AuthStateModel} from '../../core/states/auth.state';
 })
 export class HeaderComponent implements OnInit {
   accountImage = '../../../assets/profile/profile-pic.png';
+  navbarOpen = true;
 
   @Select(AuthState) auth$: Observable<AuthStateModel>;
 
@@ -25,8 +26,14 @@ export class HeaderComponent implements OnInit {
   @Output()
   respondRequest: EventEmitter<{id: string, response: boolean}> =
       new EventEmitter<{id: string, response: boolean}>();
+  @Output() toggleNavbarEvent = new EventEmitter<boolean>();
 
   constructor() {}
 
   ngOnInit() {}
+
+  toggleNavbar() {
+    this.navbarOpen = !this.navbarOpen;
+    this.toggleNavbarEvent.next(this.navbarOpen);
+  }
 }

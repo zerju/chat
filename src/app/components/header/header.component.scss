@@ -1,56 +1,56 @@
 .whole {
+  padding: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  .notifications {
+    p {
+      padding: 5px;
+      margin: 0;
+    }
+  }
+  .notification-btn {
+    position: relative;
+    background-color: transparent;
+    margin-left: 12px;
+    border-radius: 35px;
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      position: relative;
+      z-index: -10;
+    }
+  }
+  img {
+    height: 5vh;
+    width: 5vh;
+    &:hover {
+      cursor: pointer;
+    }
+    &.profile {
+      border-radius: 50%;
+      position: absolute;
+      right: 24px;
+    }
+  }
+  .search-contacts {
+    border-radius: 5px;
     padding: 5px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    display: flex;
-    align-items: center;
-    .notifications {
-        p {
-            padding: 5px;
-            margin: 0;
-        }
+    margin-left: 5%;
+    width: 50%;
+    height: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.24);
+    outline: none;
+  }
+  .menu {
+    h3 {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      margin: 0;
+      padding: 10px;
     }
-    .notification-btn {
-        position: relative;
-        background-color: transparent;
-        margin-left: 12px;
-        border-radius: 35px;
-        mat-icon {
-            font-size: 20px;
-            width: 20px;
-            height: 20px;
-            position: relative;
-            z-index: -10;
-        }
+    button {
+      border: none;
     }
-    img {
-        height: 5vh;
-        width: 5vh;
-        &:hover {
-            cursor: pointer;
-        }
-        &.profile {
-            border-radius: 50%;
-            position: absolute;
-            right: 24px;
-        }
-    }
-    .search-contacts {
-        border-radius: 5px;
-        padding: 5px;
-        margin-left: 50px;
-        width: 50%;
-        height: 20px;
-        border: 2px solid rgba(0, 0, 0, 0.24);
-        outline: none;
-    }
-    .menu {
-        h3 {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-            margin: 0;
-            padding: 10px;
-        }
-        button {
-            border: none;
-        }
-    }
+  }
 }

@@ -5,8 +5,9 @@ import {NgxsModule} from '@ngxs/store';
 import {AuthState} from './states/auth.state';
 import {ContactsState} from './states/contacts.state';
 import {MessagesState} from './states/messages.state';
+import {PlatformState} from './states/platform.state';
 
-const STATES = [AuthState, ContactsState, MessagesState];
+const STATES = [AuthState, ContactsState, MessagesState, PlatformState];
 
 @NgModule({
   providers: [],
