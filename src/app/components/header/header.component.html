@@ -1,20 +1,20 @@
 <div class="whole">
   <img (click)="toggleNavbar()" src="../../../assets/chat-icon.svg">
   <input class="search-contacts" type="text" placeholder="Search contacts" />
-  <button class="notification-btn" #handlerElement1>
+  <button class="notification-btn" [matMenuTriggerFor]="notificationMenu">
     <mat-icon>notification_important</mat-icon>
   </button>
-  <zerju-menu class="notifications" [menuHandlerElement]="handlerElement1">
+  <mat-menu #notificationMenu [yPosition]="'below'" class="notifications">
     <p>Contact requests:</p>
     <div class="menu" *ngFor="let request of (auth$ | async).user?.contactRequests">
       <zerju-contact-request (respondRequest)="respondRequest.next($event)" *ngIf="!request.responded" [request]="request"></zerju-contact-request>
     </div>
-  </zerju-menu>
-  <img #handlerElement class="profile" [src]="(auth$ | async).user?.image | image">
-  <zerju-menu [menuHandlerElement]="handlerElement">
+  </mat-menu>
+  <img [matMenuTriggerFor]="profileMenu" class="profile" [src]="(auth$ | async).user?.image | image">
+  <mat-menu #profileMenu [yPosition]="'below'">
     <div class="menu" fxLayout="column">
       <h3>{{(auth$ | async).user?.username}}</h3>
       <button (click)="logoutEvent.emit()">Logout</button>
     </div>
-  </zerju-menu>
+  </mat-menu>
 </div>

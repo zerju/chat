@@ -26,6 +26,7 @@ import {MessagePanelComponent} from './message-panel/message-panel.component';
 import {
   ContactRequestComponent
 } from './contact-request/contact-request.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 const COMPONENTS: any[] = [
   FooterComponent,
@@ -52,7 +53,8 @@ const COMPONENTS: any[] = [
     MatTooltipModule,
     PipesModule,
     DirectivesModule,
-    MatButtonModule
+    MatButtonModule,
+    MatMenuModule
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS
